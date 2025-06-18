@@ -1,0 +1,53 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dia-project"
+version = "0.1.0"
+description = "Pulls conviently boilerplate files"
+authors = [{ name = "kvn.dtrx", email = "kvn.dtrx+dia.project@protonmail.ch" }]
+readme = "readme.md"
+requires-python = ">=3.11"
+license = { file = "license.txt" }
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+    # The uncompromising code formatter.
+    "black==25.1.0",
+    # the modular source code checker: pep8 pyflakes and co
+    "flake8==7.2.0",
+    # A framework for managing and maintaining multi-language pre-commit hooks.
+    "pre-commit==4.2.0",
+    # pytest: simple powerful testing with Python
+    "pytest==8.3.5",
+    # CommonMark compliant Markdown formatter
+    "mdformat==0.7.22",
+]
+
+[project.urls]
+# "Homepage" = "https://example.com"
+"Source" = "https://github.com/julialoeschel/capstone-SignalSigma"
+"Bug Tracker" = "https://github.com/julialoeschel/capstone-SignalSigma/issues"
+
+# [project.scripts]
+# dia-project = "dia_project.cli.__main__:main"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.isort]
+profile = "black"
+
+[tool.black]
+line-length = 79
+target-version = ["py39"]
+
+# [tool.pytest.ini_options]
+# minversion = "6.0"
+# addopts = "-ra -q"
+# testpaths = ["tests"]

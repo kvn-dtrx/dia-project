@@ -1,0 +1,15 @@
+*
+
+!**/*.tex
+!**/*.sty
+!**/*.jpg
+!**/*.md
+!**/*.jsonc
+!**/*.jinja2
+!**/*.py
+!**/*.pdf
+!**/*.png
+!**/*.tif[f]
+
+target/*
+!target/.gitkeep

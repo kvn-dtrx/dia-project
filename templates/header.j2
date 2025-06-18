@@ -1,0 +1,21 @@
+{%- set cmt_map = {
+    "flake8": ("#", ""),
+    "gitignore": ("#", ""),
+    "latexmkrc": ("#", ""),
+    "prettierrc": ("//", ""),
+    "pylintrc": ("#", ""),
+    "markdaown": ("<!--", "-->"),
+    "readme": ("<!--", "-->"),
+    "makefile": ("#", ""),
+} -%}
+
+{%- set cmt_beg, cmt_end = cmt_map.get(type, ("#", "")) -%}
+
+{{ cmt_beg }} --- {{ cmt_end }}
+{{ cmt_beg }} description: {{ filename }} pulled from dia-project {{ cmt_end }}
+{{ cmt_beg }} --- {{ cmt_end }}
+
+{{ cmt_beg }} Do not alter (particularly, do not remove the header above {{ cmt_end }}
+{{ cmt_beg }} you want dia-project to recognise this file. {{ cmt_end }}
+
+{{ cmt_beg }} --- {{ cmt_end }}
