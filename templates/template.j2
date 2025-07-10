@@ -1,0 +1,31 @@
+{%- set cmt_map = {
+    "flake8": ("#", ""),
+    "gitignore": ("#", ""),
+    "latexmkrc": ("#", ""),
+    "prettierrc": ("//", ""),
+    "pylintrc": ("#", ""),
+    "markdaown": ("<!--", "-->"),
+    "readme": ("<!--", "-->"),
+    "makefile": ("#", ""),
+} -%}
+
+{%- set cmt_beg, cmt_end = cmt_map.get(type, ("#", "")) -%}
+
+{{ cmt_beg }} --- {{ cmt_end }}
+{{ cmt_beg }} begin: {{ filename }} <- dia-project @ {{ date }}  {{ cmt_end }}
+{{ cmt_beg }} --- {{ cmt_end }}
+
+{{ cmt_beg }} NOTE: dia-project does not recognise this file {{ cmt_end }}
+{{ cmt_beg }} as a build product (and overwrites it without confirmation {{ cmt_end }}
+{{ cmt_beg }} if and only if no line matches: {{ cmt_end }}
+{{ cmt_beg }} ^ *{{ filename }} <- dia-project @ {{ date }} *$ {{ cmt_end }}
+
+{%- for file in content_files %}
+{{ cmt_beg }} begin: file {{ loop.index }} {{ cmt_end }}
+{{ file }}
+{{ cmt_beg }} end: file {{ loop.index }} {{ cmt_end }}
+{%- endfor %}
+
+{{ cmt_beg }} --- {{ cmt_end }}
+{{ cmt_beg }} end: {{ filename }} <- dia-project @ {{ date }}  {{ cmt_end }}
+{{ cmt_beg }} --- {{ cmt_end }}
