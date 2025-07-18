@@ -1,0 +1,13 @@
+# Ignore all top-level nodes ...
+/*
+# ... but track the top-level files ...
+!/.gitignore
+!/readme.md
+# ... and descend into data/:
+!data/
+# Ignore all nodes subordinate to data/ ...
+data/**/*
+# ... but descend into all subdirectories ...
+!data/**/*/
+# ... and track all subordinate csv files:
+!data/**/*.csv

@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "dia-project"
 version = "0.1.0"
 description = "Pulls conviently boilerplate files"
-authors = [{ name = "kvn.dtrx", email = "kvn.dtrx+dia.project@protonmail.ch" }]
+authors = [{ name = "kvn.dtrx", email = "kvn.dtrx+github@protonmail.ch" }]
 readme = "readme.md"
 requires-python = ">=3.11"
 license = { file = "license.txt" }

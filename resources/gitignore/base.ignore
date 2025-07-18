@@ -4,7 +4,7 @@
 .LSOverride
 .Spotlight-V100
 .Trashes
-Icon[]
+Icon[[]]
 ._*
 
 # Linux
@@ -18,7 +18,7 @@ ehthumbs.db
 $RECYCLE.BIN/
 
 # Logs and temporary files
-**/log{,s}/
+log{,s}/
 *.bak
 *.log
 *.swo
