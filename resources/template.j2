@@ -2,14 +2,15 @@
     "flake8": ("# ", ""),
     "gitignore": ("# ", ""),
     "latexmkrc": ("# ", ""),
+    "license": ("<!-- ", " -->"),
+    "makefile": ("# ", ""),
+    "markdownlint": ("# ", ""),
     "prettierrc": ("// ", ""),
     "pylintrc": ("# ", ""),
-    "markdown": ("<!-- ", " -->"),
     "readme": ("<!-- ", " -->"),
-    "makefile": ("# ", ""),
 } -%}
 
-{%- set cmt_beg, cmt_end = cmt_map.get(type, ("#", "")) -%}
+{%- set cmt_beg, cmt_end = cmt_map.get(type, ("# ", "")) -%}
 
 {{ cmt_beg }}---{{ cmt_end }}
 {{ cmt_beg }}begin: {{ filename }} <- dia-project @ {{ date }}{{ cmt_end }}

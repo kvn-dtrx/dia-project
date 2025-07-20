@@ -1,5 +1,5 @@
 # ---
-# begin: .gitignore <- dia-project @ 2025-07-20T02:14:55
+# begin: .gitignore <- dia-project @ 2025-07-20T02:54:25
 # ---
 
 # NOTE: dia-project does not recognise this file 
@@ -12,42 +12,43 @@
 # Base
 
 # macOS
-.DS_Store
+._*
 .AppleDouble
+.DS_Store
 .LSOverride
 .Spotlight-V100
 .Trashes
 Icon[[]]
-._*
 
 # Linux
-*~
 .nfs*
+*~
 
 # Windows
-Desktop.ini
-Thumbs.db
-ehthumbs.db
 $RECYCLE.BIN/
+Desktop.ini
+ehthumbs.db
+Thumbs.db
 
 # Logs and temporary files
-log{,s}/
 *.bak
 *.log
 *.swo
 *.swp
 *.tmp
+log{,s}/
 
 # ---
 
-.python-version
-.venv/
-*.egg-info/
 __pycache__/
+/.python-version
+/.venv/
+*.egg-info/
+*.pyc
 *.pyi
 
 # ---
 
 # ---
-# end: .gitignore <- dia-project @ 2025-07-20T02:14:55
+# end: .gitignore <- dia-project @ 2025-07-20T02:54:25
 # ---

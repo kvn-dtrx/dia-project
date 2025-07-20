@@ -1,8 +1,8 @@
-# Dia Project
+# Dia-Project
 
 ## Synopsis
 
-This repository provides a convenient functionality to pull resources which are required across (*διά*) projects but cannot be incorporated via git submodules or subtrees such as files like `.gitignore` or `.pylintrc`.
+This repository provides a convenient mechanism for retrieving resources—such as `.gitignore` or `.pylintrc` files—that are required across (*διά*) projects but for which incorporation via embedded Git repositories (i.e., submodules or subtrees) or symbolic links is deemed inappropriate.
 
 Furthermore, a very small example library of such resources is included.
 
