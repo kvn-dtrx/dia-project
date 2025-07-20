@@ -13,13 +13,13 @@ target/*
 /Cargo.lock
 
 # Binaries and debug logs
-*.log
-*.dSYM/
-*.rlib
 *.dll
-*.exe
-*.so
+*.dSYM/
 *.dylib
+*.exe
+*.log
+*.rlib
+*.so
 
 # Optional: ignore test result output or custom generated files
 /tests/output/

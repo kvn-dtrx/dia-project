@@ -1,0 +1,55 @@
+# ---
+# description: Provides the default configuration.
+# ---
+
+# --- 
+
+# General
+
+[general]
+# Filename of manifests
+manifest = ".dia-pull.toml"
+additional_resources = []
+log_level = "INFO"
+
+# ---
+
+# Sources and targets
+
+[srctar.flake8]
+sources = ["base.ini"]
+target = ".flake8"
+
+[srctar.gitignore]
+sources = ["base.ignore"]
+target = ".gitignore"
+
+[srctar.latexmk]
+sources = ["base.pl"]
+target = ".latexmkrc"
+
+[srctar.license]
+sources = ["mit.txt"]
+target = "license.txt"
+
+[srctar.makefile]
+sources = ["python-package.mk"]
+target = "makefile"
+
+[srctar.markdownlint]
+sources = ["base.yaml"]
+target = ".markdownlint.yaml"
+
+[srctar.prettier]
+sources = ["base.jsonc"]
+target = ".prettierrc"
+
+[srctar.pylintrc]
+sources = ["base.toml"]
+target = ".pylintrc"
+
+[srctar.readme]
+sources = ["base.md"]
+target = ".pylintrc"
+
+# ---

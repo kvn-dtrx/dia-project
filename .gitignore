@@ -1,1 +1,53 @@
+# ---
+# begin: .gitignore <- dia-project @ 2025-07-20T02:14:55
+# ---
+
+# NOTE: dia-project does not recognise this file 
+# as a build product (and overwrites it without confirmation 
+# if and only if no line matches: 
+# `^# [A-Za-z]+ <- dia-project @ \d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$`
+
+# ---
+
+# Base
+
+# macOS
 .DS_Store
+.AppleDouble
+.LSOverride
+.Spotlight-V100
+.Trashes
+Icon[[]]
+._*
+
+# Linux
+*~
+.nfs*
+
+# Windows
+Desktop.ini
+Thumbs.db
+ehthumbs.db
+$RECYCLE.BIN/
+
+# Logs and temporary files
+log{,s}/
+*.bak
+*.log
+*.swo
+*.swp
+*.tmp
+
+# ---
+
+.python-version
+.venv/
+*.egg-info/
+__pycache__/
+*.pyi
+
+# ---
+
+# ---
+# end: .gitignore <- dia-project @ 2025-07-20T02:14:55
+# ---

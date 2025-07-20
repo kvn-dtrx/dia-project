@@ -1,5 +1,6 @@
-.python-version
-.venv/
-*.egg-info/
 __pycache__/
+/.python-version
+/.venv/
+*.egg-info/
+*.pyc
 *.pyi
