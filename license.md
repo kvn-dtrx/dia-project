@@ -1,11 +1,11 @@
 <!-- --- -->
-<!-- begin: license.md <- dia-project @ 2025-07-20T02:54:25 -->
+<!-- begin: license.md <- dia-project @ 2025-07-20T02:59:34 -->
 <!-- --- -->
 
 <!-- NOTE: dia-project does not recognise this file  -->
 <!-- as a build product (and overwrites it without confirmation  -->
 <!-- if and only if no line matches:  -->
-<!-- `^<!-- [A-Za-z]+ <- dia-project @ \d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2} -->$` -->
+<!--   ^<!-- [A-Za-z]+ <- dia-project @ \d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2} -->$ -->
 
 <!-- --- -->
 
@@ -34,5 +34,5 @@ SOFTWARE.
 <!-- --- -->
 
 <!-- --- -->
-<!-- end: license.md <- dia-project @ 2025-07-20T02:54:25 -->
+<!-- end: license.md <- dia-project @ 2025-07-20T02:59:34 -->
 <!-- --- -->
