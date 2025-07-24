@@ -1,0 +1,32 @@
+# ---
+# description: Provides default values for incomplete sections
+# ---
+
+[[flake8]]
+source = ["base"]
+target = ".flake8"
+
+[[gitignore]]
+source = ["base"]
+target = ".gitignore"
+
+[[latexmk]]
+source = ["base"]
+target = ".latexmkrc"
+
+[[markdownlint]]
+source = ["base"]
+target = ".markdownlint.yaml"
+
+[[prettier]]
+source = ["base"]
+target = ".prettierrc"
+
+[[pylintrc]]
+source = ["base"]
+target = [".pylintrc"]
+
+# --- 
+
+# dia-pull-assets (){}
+# DIA_PULL=".dia-pull.toml"
