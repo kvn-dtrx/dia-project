@@ -1,0 +1,9 @@
+# Data Science Base
+
+# Tent-pole for `data` directories
+**/data/*
+!**/data/.gitkeep
+
+# Tent-pole for `plots` directories
+**/plots/*
+!**/plots/.gitkeep

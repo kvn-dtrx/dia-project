@@ -1,24 +1,28 @@
+# Base
+
 # macOS
-.DS_Store
-.AppleDouble
-.LSOverride
-Icon[]
 ._*
+.AppleDouble
+.DS_Store
+.LSOverride
+.Spotlight-V100
+.Trashes
+Icon[[]]
 
 # Linux
-*~
 .nfs*
+*~
 
 # Windows
-Desktop.ini
-Thumbs.db
-ehthumbs.db
 $RECYCLE.BIN/
+Desktop.ini
+ehthumbs.db
+Thumbs.db
 
 # Logs and temporary files
-log{,s}/
 *.bak
 *.log
 *.swo
 *.swp
 *.tmp
+log{,s}/

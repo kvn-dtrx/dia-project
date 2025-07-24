@@ -1,59 +1,101 @@
-# Dia Project
+# Dia-Project
 
 ## Synopsis
 
-This repository provides resources which are required across (*διά*) our projects (located at `~/data/projects`) and cannot be incorporated via git submodules or subtrees.
+This repository provides a convenient mechanism for retrieving resources—such as `.gitignore` or `.pylintrc` files—that are required across (*διά*) projects but for which incorporation via embedded Git repositories (i.e., submodules or subtrees) or symbolic links is deemed inappropriate.
+
+Furthermore, a very small example library of such resources is included.
+
+## Installation
+
+### Requirements
+
+- macOS/Linux (currently)
+- Python 3.11
+- pyenv
+
+### Setup
+
+1. Navigate to a working directory of your choice—such as `${XDG_DATA_HOME}`—then clone the repository and enter it:
+
+    ``` shell
+    git clone https://github.com/kvn-dtrx/dia-project.git &&
+       cd dia-project
+    ```
+
+2. Choose a setup option ~~based on your operating system and~~ intended use. If you prefer to run the commands manually yourself or want to inspect what each make target does first, use the `-n` flag for a dry run. This prints the commands without executing them:
+
+    ``` shell
+    make -n <target>
+    ```
 
 ## Usage
 
 To synchronise shared project files from `dia-project` into another repository, follow these steps:
 
-### 1. Create a `.dia-pull` manifest in your target repository
+1. Create `.dia-pull.toml` manifests in your target repositories
 
-At the root of your target repository, create a file named `.dia-pull`. This file should be written in POSIX `sh` syntax and specify:
+   At the root of your target repository[^technically], create a file named `.dia-pull.toml` and specify the generic resources required for the project (the employed syntax will be exemplified below).
 
-- The path to the `dia-project` repository (typically relative).
-- A list of files to copy.
+   [^technically]: Technically, this is not strictly necessary—but other choices would possibly undermine the idea of keeping project-related configurations close to the project.
 
-#### Example
+2. Run the synchronisation binary
 
-Consider a `.dia-pull.toml` file with content:
+   The following command executes all pulling tasks which are specified in a `.dia.toml` file subordinated to one of the directories `<dir_1>`, …, `<dir_N>`:
+
+   ``` shell
+   dia <dir_1> … <dir_N>
+   ```
+
+   If no directory is specified, `dia-project` will operate only on the current working directory.
+
+### Example
+
+Let us consider a manifest located at `/path/to/project/.dia.toml` with the following content:
 
 ```toml
-[[gitignore]]
+# If the target is relative, it is interpreted with respect to `/path/to/resources/type/`.
+[gitignore]
 source = ["rust-basic"]
 target = "foo/bar/.gitignore"
 
-[[makefile]]
+# When no target is specified, a sensible and not entirely arbitrary default is used.
+[makefile]
 source = ["latex-basic"]
+# target = "makefile"
+
+# One may even specify absolute paths in the source field.
+[env]
+source = ["/path/to/some/credential", "/path/to/another/credential"]
+target = ".env"
 ```
 
-Note that no `target` is specified (points to default). This essentially runs:
-
-``` shell
-cp \
-    path/to/dia-project/gitignores/rust-basic.txt \
-    path/to/target-repo/src/foo/.gitignore
-
-cp \
-    path/to/dia-project/makefiles/latex-basic.mk \
-    path/to/target-repo/makefile
-```
-
-### 2. Run the synchronisation script
-
-From the root of your target repository:
+Then, the following command pulls the specified resources for the project based at `/path/to/project/`:
 
 ```sh
-path/to/dia-project/script/sync-dia.sh
+dia-pull /path/to/project/
 ```
 
-This will:
+This command effects essentially:
 
-- Read the `.dia-pull` manifest.
-- Copy the listed files from dia-project into the current repository.
-- Overwrite existing files with the same name.
+``` shell
+cat \
+    "/path/to/resources/gitignores/rust-basic.txt" \
+    !> "/path/to/target-repo/src/foo/.gitignore"
 
-Optional Integration
+cat \
+    "/path/to/resources/makefiles/latex-basic.mk" \
+    !> "/path/to/target-repo/makefile"
 
-You may optionally wrap sync-dia in a Makefile target or pre-commit hook for automation.
+cat \
+    "/path/to/some/credential" "/path/to/another/credential" \
+    !> "/path/to/target-repo/.env"
+```
+
+**WARNING**: By default, target files will be overwritten. For a dry run, the user may add the flag `--dry-run` or `-n`.
+
+## Colophon
+
+**Author:** [kvn-dtrx](https://github.com/kvn-dtrx)
+
+**License:** [MIT License](license.txt)
