@@ -46,11 +46,12 @@ def process_project(session: Box, root: Path) -> None:
 def process_project_task(
     session: Box, root: Path, key: str, task: Box
 ) -> None:
-    name = task.name
+    name = key
     sources_ = task.sources
-    target = task.target
+    target_ = task.target
     combined_contents: List[str] = []
     resources = DEFAULT_RESOURCES_PATH
+    print(name)
     sources = [resources / name / source for source in sources_]
     target = (root / target_).resolve()
     if name != "license":
