@@ -22,12 +22,15 @@ def get_resource(directories: List[Path], name: str) -> Optional[Path]:
 
 def process(session: Box) -> None:
     directories: List[Path] = session.ephemeral.directories
-    manifest: str = session.general.manifest
+    manifest = session.general.manifest
     for directory in directories:
         base = Path(directory)
         for path in base.rglob(manifest):
             if path.is_file():
-                process_project(session, path.parent)
+                path_parent = path.parent.resolve()
+                logging.info(f"Processing manifest in:\n  {path_parent}")
+                process_project(session, path_parent)
+                logging.info(f"Processed manifest in:\n  {path_parent}")
 
 
 def process_project(session: Box, root: Path) -> None:
@@ -43,23 +46,38 @@ def process_project(session: Box, root: Path) -> None:
 def process_project_task(
     session: Box, root: Path, key: str, task: Box
 ) -> None:
-    sources = task.sources
+    name = task.name
+    sources_ = task.sources
     target = task.target
     combined_contents: List[str] = []
     resources = DEFAULT_RESOURCES_PATH
-    sources = [resources / key / source for source in sources]
-    filled_template = fill_template(
-        TEMPLATE_PATH, sources, file_type=key, filename=target
-    )
-    target_path = (root / target).resolve()
-    target_path.parent.mkdir(parents=True, exist_ok=True)
-    logging.debug(f"Writing target file: {target_path}")
-    print(filled_template)
-    try:
-        with target_path.open("w", encoding="utf-8") as f:
-            f.write(filled_template)
-            pass
-        logging.info(f"Wrote combined {key} to: {target_path}")
-    except Exception as e:
-        logging.error(f"Failed to write {target_path}: {e}")
-    return
+    sources = [resources / name / source for source in sources_]
+    target = (root / target_).resolve()
+    if name != "license":
+        content = fill_template(
+            TEMPLATE_PATH, sources, file_type=name, filename=target_
+        )
+    elif len(sources) == 1:
+        content = from_file(*sources)
+    else:
+        logging.info(f"Unimplemented case.")
+        return
+    if content is None:
+        logging.info(
+            f"Cannot write:\n  Sources: {sources_}\n  Target:  {target}"
+        )
+        return
+    target.parent.mkdir(parents=True, exist_ok=True)
+    if session.ephemeral.dry_run:
+        logging.info(
+            f"Would write:\n  Sources: {sources_}\n  Target : {target}"
+        )
+    else:
+        try:
+            logging.debug(f"Writing target file: {target}")
+            with target.open("w", encoding="utf-8") as f:
+                f.write(content)
+                pass
+            logging.info(f"Wrote combined {name} to: {target}")
+        except Exception as e:
+            logging.error(f"Failed to write {target}: {e}")

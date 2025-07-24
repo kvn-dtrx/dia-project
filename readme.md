@@ -41,17 +41,17 @@ To synchronise shared project files from `dia-project` into another repository, 
 
 2. Run the synchronisation binary
 
-   The following command executes all pulling tasks which are specified in a `.dia-pull.toml` file subordinated to one of the directories `<dir_1>`, …, `<dir_N>`:
+   The following command executes all pulling tasks which are specified in a `.dia.toml` file subordinated to one of the directories `<dir_1>`, …, `<dir_N>`:
 
    ``` shell
-   dia-pull <dir_1> … <dir_N>
+   dia <dir_1> … <dir_N>
    ```
 
    If no directory is specified, `dia-project` will operate only on the current working directory.
 
 ### Example
 
-Let us consider a manifest located at `/path/to/project/.dia-pull.toml` with the following content:
+Let us consider a manifest located at `/path/to/project/.dia.toml` with the following content:
 
 ```toml
 # If the target is relative, it is interpreted with respect to `/path/to/resources/type/`.
@@ -91,6 +91,8 @@ cat \
     "/path/to/some/credential" "/path/to/another/credential" \
     !> "/path/to/target-repo/.env"
 ```
+
+**WARNING**: By default, target files will be overwritten. For a dry run, the user may add the flag `--dry-run` or `-n`.
 
 ## Colophon
 

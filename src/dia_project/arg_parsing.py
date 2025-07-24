@@ -7,6 +7,7 @@
 import argparse
 import logging
 from box import Box
+from pathlib import Path
 from typing import Callable
 
 
@@ -73,7 +74,9 @@ def from_args() -> Box:
         ]
         config["general"]["additional_resources"] = additional_resources
 
-    config["ephemeral"]["directories"] = parsed_args.directories
+    config["ephemeral"]["directories"] = [
+        Path(dir) for dir in parsed_args.directories
+    ]
 
     section_filter: Callable[[str], bool]
     if parsed_args.whitelist:

@@ -8,7 +8,7 @@
 
 [general]
 # Filename of manifests
-manifest = ".dia-pull.toml"
+manifest = ".dia.toml"
 additional_resources = []
 log_level = "INFO"
 
@@ -24,7 +24,7 @@ target = ".flake8"
 sources = ["base.ignore"]
 target = ".gitignore"
 
-[srctar.latexmk]
+[srctar.latexmkrc]
 sources = ["base.pl"]
 target = ".latexmkrc"
 
@@ -40,7 +40,7 @@ target = "makefile"
 sources = ["base.yaml"]
 target = ".markdownlint.yaml"
 
-[srctar.prettier]
+[srctar.prettierrc]
 sources = ["base.jsonc"]
 target = ".prettierrc"
 

@@ -21,9 +21,7 @@ from box import Box
 import os
 
 
-logging.basicConfig(
-    level=logging.DEBUG, format="%(asctime)s [%(levelname)s] %(message)s"
-)
+logging.basicConfig(level=logging.INFO, format="[%(levelname)s] %(message)s")
 
 if os.geteuid() == 0:
     logging.critical("Please run with user and not root privileges!")
@@ -41,7 +39,7 @@ def main() -> int:
     # # except Exception as e:
     # #     print(f"Error:\n  {e}", file=sys.stderr)
     # #     return 1
-    # return 0
+    return 0
 
 
 if __name__ == "__main__":

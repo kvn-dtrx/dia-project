@@ -32,6 +32,17 @@ def from_default_toml() -> Box:
     return data
 
 
+def from_file(text_path: Path) -> Optional[str]:
+    try:
+        with open(text_path, "r") as f:
+            text = f.read()
+        # data = Box(text_, default_box=True)
+    except Exception as e:
+        logging.error(f"Failed to read file:\n  {text_path}\n  {e}")
+        return
+    return text
+
+
 def fill_template(
     template_path: Path,
     sources: List[Path],
@@ -55,11 +66,14 @@ def fill_template(
             try:
                 with source.open("r", encoding="utf-8") as f:
                     contents.append(f.read())
-                logging.debug(f"Reading source file was successful: {source}")
+                logging.debug(
+                    f"Reading source file was successful:\n  {source}"
+                )
             except Exception as e:
                 logging.error(f"Failed to read {source}: {e}")
         else:
-            logging.warning(f"Source file not found: {source}")
+            logging.error(f"Source file not found:\n  {source}")
+            return
 
     filled_template = template.render(
         type=file_type,

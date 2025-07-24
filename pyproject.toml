@@ -13,6 +13,8 @@ license = { file = "license.txt" }
 dependencies = [
     # A very fast and expressive template engine.
     "jinja2==3.1.5",
+    # Advanced Python dictionaries with dot notation access.
+    "python-box==7.3.2",
 ]
 
 [project.optional-dependencies]

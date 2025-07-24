@@ -20,13 +20,15 @@ help: ## Shows this help
 	@echo "    --debug[=b|v|a] : Debug info (b=basic [default], v=verbose, a=all)"
 	@echo
 
+setup: ## Links binaries
+	ln -sf "$(CURDIR)/scripts/invoke.sh" "$(XDG_BIN_HOME)/dia"
+	chmod +x "$(XDG_BIN_HOME)/dia"
+
 install: ## Installs the module and creates a symlink to a directory in the PATH
 	pyenv local $(PYTHON_VERSION)
 	python -m venv $(VENV)
 	$(VENV)/bin/python -m pip install --upgrade pip
 	$(VENV)/bin/python -m pip install -e .
-	ln -sf "$(CURDIR)/scripts/invoke.sh" "$(XDG_BIN_HOME)/dia-pull"
-	chmod +x "$(XDG_BIN_HOME)/dia-pull"
 
 # # dev: ## Executes `install` and sets up additional development tools
 # 	$(MAKE) install

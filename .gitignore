@@ -1,11 +1,6 @@
 # ---
-# begin: .gitignore <- dia-project @ 2025-07-20T03:02:27
+# begin: .gitignore <- dia-project
 # ---
-
-# NOTE: dia-project does not recognise this file 
-# as a build product (and overwrites it without confirmation 
-# if and only if no line matches: 
-#   [A-Za-z]+ <- dia-project @ \d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}
 
 # ---
 
@@ -40,6 +35,8 @@ log{,s}/
 
 # ---
 
+# Python
+
 __pycache__/
 /.python-version
 /.venv/
@@ -50,5 +47,5 @@ __pycache__/
 # ---
 
 # ---
-# end: .gitignore <- dia-project @ 2025-07-20T03:02:27
+# end: .gitignore <- dia-project
 # ---
