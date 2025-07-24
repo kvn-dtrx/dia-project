@@ -1,0 +1,7 @@
+[license]
+sources = ["mit.txt"]
+target = "license.txt"
+
+[gitignore]
+sources = ["base.ignore", "python.ignore"]
+target = ".gitignore"

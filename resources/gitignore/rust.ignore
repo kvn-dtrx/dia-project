@@ -1,9 +1,8 @@
-# ---
-# tmpl-loc: gitignores/rust.txt
-# ---
+# Rust
 
 # Cargo build output
-/target/
+target/*
+!target/.gitkeep
 
 # Incremental compilation files
 **/target/**/incremental/
@@ -11,32 +10,18 @@
 # Build artifacts for tools like cargo check, clippy, etc.
 **/*.rs.bk
 
-# IDEs and editors
-.idea/
-.vscode/
-*.swp
-*.swo
-*.swn
-*.swns
-
-# Backup and temp files
-*~
-*.bak
-*.tmp
-*.old
-
 # By-products of rustup/cargo
 /.cargo/
 /Cargo.lock
 
 # Binaries and debug logs
-*.log
-*.dSYM/
-*.rlib
 *.dll
-*.exe
-*.so
+*.dSYM/
 *.dylib
+*.exe
+*.log
+*.rlib
+*.so
 
 # Optional: ignore test result output or custom generated files
 /tests/output/

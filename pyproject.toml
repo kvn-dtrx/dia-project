@@ -5,12 +5,17 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "dia-project"
 version = "0.1.0"
-description = "Pulls conviently boilerplate files"
-authors = [{ name = "kvn.dtrx", email = "kvn.dtrx+dia.project@protonmail.ch" }]
+description = "Conveniently retrieves resources required across projects"
+authors = [{ name = "kvn.dtrx", email = "kvn.dtrx+github@protonmail.ch" }]
 readme = "readme.md"
 requires-python = ">=3.11"
 license = { file = "license.txt" }
-dependencies = []
+dependencies = [
+    # A very fast and expressive template engine.
+    "jinja2==3.1.5",
+    # Advanced Python dictionaries with dot notation access.
+    "python-box==7.3.2",
+]
 
 [project.optional-dependencies]
 dev = [
@@ -28,11 +33,12 @@ dev = [
 
 [project.urls]
 # "Homepage" = "https://example.com"
-"Source" = "https://github.com/julialoeschel/capstone-SignalSigma"
-"Bug Tracker" = "https://github.com/julialoeschel/capstone-SignalSigma/issues"
+"Source" = "https://github.com/kvn-dtrx/dia-project"
+"Bug Tracker" = "https://github.com/kvn-dtrx/dia-project/issues"
 
-# [project.scripts]
-# dia-project = "dia_project.cli.__main__:main"
+[project.scripts]
+dia-pull = "dia_project.__main__:main"
+dp = "dia_project.__main__:main"
 
 [tool.setuptools]
 package-dir = { "" = "src" }
