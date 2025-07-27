@@ -34,9 +34,9 @@
 *.synctex.gz
 *.synctex.gz(busy)
 
-## Build tool directories for auxiliary files
-# latexrun
-latex.out/
+# Build directory
+/build/*
+!/build/.gitkeep
 
 # amsthm
 *.thm
@@ -61,7 +61,3 @@ latex.out/
 *.idx
 *.ilg
 *.ind
-
-# Build directory
-/target/*
-!/target/.gitkeep

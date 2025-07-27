@@ -25,4 +25,6 @@ Thumbs.db
 *.swo
 *.swp
 *.tmp
-log{,s}/
+log/
+logs/
+tmp/
