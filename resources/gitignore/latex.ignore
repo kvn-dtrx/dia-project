@@ -35,8 +35,8 @@
 *.synctex.gz(busy)
 
 # Build directory
-/build/*
-!/build/.gitkeep
+**/build/*
+!**/build/.gitkeep
 
 # amsthm
 *.thm
