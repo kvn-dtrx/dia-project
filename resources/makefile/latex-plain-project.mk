@@ -3,14 +3,14 @@ MAIN=main
 STYLE=styles/styles.sty
 OUTDIR=target
 
-.PHONY: all clean cleanall rebuild
+.PHONY: build clean reset rebuild
 
 help: ## Shows this help
 	@echo "Available targets for make:"
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
 	awk 'BEGIN {FS = ":.*?## "}; {printf "  %-13s: %s\n", $$1, $$2}'
 
-all: $(OUTDIR)/$(MAIN).pdf ## Builds the main pdf document
+build: $(OUTDIR)/$(MAIN).pdf ## Builds the main pdf document
 
 $(OUTDIR): ## Create output directory if necessary
 	mkdir -p $(OUTDIR)
@@ -20,17 +20,19 @@ $(OUTDIR)/$(MAIN).pdf: $(MAIN).tex $(STYLE) | $(OUTDIR) ## Compiles the main LaT
 	$(TEX) -output-directory=$(OUTDIR) $(MAIN).tex
 	$(TEX) -output-directory=$(OUTDIR) $(MAIN).tex
 
-clean: ## Removes all generated files except pdfs and .gitkeep
+clean: ## Removes all generated files except output files and .gitkeep
 	find $(OUTDIR) -mindepth 1 \
 		-not -name '*.pdf' \
+		-not -name '*.png' \
+		-not -name '*.jpg' \
 		-not -name '.gitkeep' \
 		-print0 | xargs -0 rm -rf --
 
-cleanall: ## Remove all generated files including pdfs except .gitkeep
+reset: ## Remove all generated files including pdfs except .gitkeep
 	find $(OUTDIR) -mindepth 1 \
 		-not -name '.gitkeep' \
 		-print0 | xargs -0 rm -rf --
 
 rebuild: ## Cleans all outputs and rebuild everything
-	$(MAKE) cleanall
+	$(MAKE) reset
 	$(MAKE) all

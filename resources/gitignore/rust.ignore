@@ -1,8 +1,8 @@
 # Rust
 
 # Cargo build output
-target/*
-!target/.gitkeep
+**/target/*
+!**/target/.gitkeep
 
 # Incremental compilation files
 **/target/**/incremental/
@@ -24,4 +24,4 @@ target/*
 *.so
 
 # Optional: ignore test result output or custom generated files
-/tests/output/
+**/tests/output/

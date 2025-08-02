@@ -11,16 +11,8 @@
 } -%}
 
 {%- set cmt_beg, cmt_end = cmt_map.get(type, ("# ", "")) -%}
-{{ cmt_beg }}---{{ cmt_end }}
-{{ cmt_beg }}begin: {{ filename }} <- dia-project{{ cmt_end }}
-{{ cmt_beg }}---{{ cmt_end }}
 {% for content in contents %}
-{{ cmt_beg }}---{{ cmt_end }}
-
 {{ content }}
-{%- endfor %}
-{{ cmt_beg }}---{{ cmt_end }}
 
 {{ cmt_beg }}---{{ cmt_end }}
-{{ cmt_beg }}end: {{ filename }} <- dia-project{{ cmt_end }}
-{{ cmt_beg }}---{{ cmt_end }}
+{%- endfor %}
