@@ -1,9 +1,3 @@
-# ---
-# begin: .gitignore <- dia-project
-# ---
-
-# ---
-
 # Base
 
 # macOS
@@ -31,7 +25,9 @@ Thumbs.db
 *.swo
 *.swp
 *.tmp
-log{,s}/
+log/
+logs/
+tmp/
 
 # ---
 
@@ -43,9 +39,3 @@ __pycache__/
 *.egg-info/
 *.pyc
 *.pyi
-
-# ---
-
-# ---
-# end: .gitignore <- dia-project
-# ---

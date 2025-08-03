@@ -14,6 +14,19 @@ from .metaconfig import *
 from .utils import *
 
 
+CMT = {
+    "flake8": ("# ", ""),
+    "gitignore": ("# ", ""),
+    "latexmkrc": ("# ", ""),
+    "license": ("<!-- ", " -->"),
+    "makefile": ("# ", ""),
+    "markdownlint": ("# ", ""),
+    "prettierrc": ("// ", ""),
+    "pylintrc": ("# ", ""),
+    "readme": ("<!-- ", " -->"),
+}
+
+
 def get_resource(directories: List[Path], name: str) -> Optional[Path]:
     for directory in directories:
         for path in directory.rglob(name):
@@ -61,34 +74,43 @@ def process_project_task(
     else:
         as_symlink = False
     resources = DEFAULT_RESOURCES_PATH
-    print(name)
     sources = [resources / name / source for source in sources_]
     target = (root / target_).resolve()
-    if name != "license":
-        content = fill_template(
-            TEMPLATE_PATH, sources, file_type=name, filename=target_
-        )
-    elif len(sources) == 1:
-        content = from_file(*sources)
-    else:
-        logging.info(f"Unimplemented case.")
-        return
-    if content is None:
-        logging.info(
-            f"Cannot write:\n  Sources: {sources_}\n  Target:  {target}"
-        )
-        return
     target.parent.mkdir(parents=True, exist_ok=True)
-    if session.ephemeral.dry_run:
-        logging.info(
-            f"Would write:\n  Sources: {sources_}\n  Target : {target}"
-        )
+    if not as_symlink:
+        contents: List[str] = []
+        for source in sources:
+            content = from_file(source)
+            if not content is None:
+                contents.append(content)
+            else:
+                logging.info(
+                    f"Cannot write:\n  Sources: {sources_}\n  Target:  {target}"
+                )
+                return
+        cmtbeg, cmtend = CMT[name]
+        separator = f"\n{cmtbeg}---{cmtend}\n\n"
+        content = separator.join(contents)
+        if session.ephemeral.dry_run:
+            logging.info(
+                f"Would write:\n  Sources: {sources_}\n  Target : {target}"
+            )
+        else:
+            try:
+                logging.debug(f"Writing target file: {target}")
+                with target.open("w", encoding="utf-8") as f:
+                    f.write(content)
+                    pass
+                logging.info(f"Wrote combined {name} to: {target}")
+            except Exception as e:
+                logging.error(f"Failed to write {target}: {e}")
     else:
-        try:
-            logging.debug(f"Writing target file: {target}")
-            with target.open("w", encoding="utf-8") as f:
-                f.write(content)
-                pass
-            logging.info(f"Wrote combined {name} to: {target}")
-        except Exception as e:
-            logging.error(f"Failed to write {target}: {e}")
+        if len(sources) > 1:
+            logging.info(f"Proper list of files cannot be written: {name}")
+            return
+        else:
+            source = sources[0]
+            print(target)
+            if target.exists() or target.is_symlink():
+                target.unlink()
+            target.symlink_to(source)
