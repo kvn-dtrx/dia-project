@@ -9,6 +9,7 @@ from typing import List
 from typing import Optional
 from pathlib import Path
 from box import Box
+from box import BoxList
 from .metaconfig import *
 from .utils import *
 
@@ -37,10 +38,13 @@ def process_project(session: Box, root: Path) -> None:
     manifest_file = session.general.manifest
     manifest_path = root / manifest_file
     tasks = from_toml(manifest_path)
-    for k_task, v_task in tasks.items():
+    for k_task, v_tasks in tasks.items():
         task_passed = session.ephemeral.section_filter(k_task)
         if task_passed:
-            process_project_task(session, root, k_task, v_task)
+            if isinstance(v_tasks, Box):
+                v_tasks = BoxList([v_tasks])
+            for v_task in v_tasks:
+                process_project_task(session, root, k_task, v_task)
 
 
 def process_project_task(
@@ -48,8 +52,14 @@ def process_project_task(
 ) -> None:
     name = key
     sources_ = task.sources
+    if not sources_:
+        logging.info(f"No sources specified for: {name}")
+        return
     target_ = task.target
-    combined_contents: List[str] = []
+    if "as_symlink" in task:
+        as_symlink = task.as_symlink
+    else:
+        as_symlink = False
     resources = DEFAULT_RESOURCES_PATH
     print(name)
     sources = [resources / name / source for source in sources_]
