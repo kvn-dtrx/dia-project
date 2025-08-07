@@ -7,6 +7,11 @@
 .LSOverride
 .Spotlight-V100
 .Trashes
+* 2
+* 2.*
+* copy
+* copy.*
+*.nosync/
 Icon[[]]
 
 # Linux
