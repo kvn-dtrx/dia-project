@@ -23,7 +23,7 @@ Furthermore, a very small example library of such resources is included.
        cd dia-project
     ```
 
-2. Choose a setup option ~~based on your operating system and~~ intended use. If you prefer to run the commands manually yourself or want to inspect what each make target does first, use the `-n` flag for a dry run. This prints the commands without executing them:
+2. Choose a setup option based on ~~your operating system and~~ intended use. If you prefer to run the commands manually yourself or want to inspect what each make target does first, use the `-n` flag for a dry run. This prints the commands without executing them:
 
     ``` shell
     make -n <target>
