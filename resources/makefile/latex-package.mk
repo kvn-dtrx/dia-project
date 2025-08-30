@@ -1,8 +1,5 @@
-PACKAGE_NAME := $(shell basename "$$PWD")
-STYLES := $(wildcard styles/*.sty)
-CLASSES := $(wildcard classes/*.cls)
-CONFIGS := $(wildcard configs/*.cfg.sty)
-FILES := $(CLASSES) $(STYLES) $(CONFIGS)
+SRC := $(wildcard src/*)
+PACKAGES := $(patsubst src/%,%,$(SRC))
 
 UNAME_S := $(shell uname -s)
 ifeq ($(TEXMF),)
@@ -13,7 +10,7 @@ ifeq ($(TEXMF),)
     endif
 endif
 
-TARGET = $(TEXMF)/tex/latex/$(PACKAGE_NAME)
+TARGET = $(TEXMF)/tex/latex
 
 .PHONY: help install uninstall
 
@@ -22,17 +19,25 @@ help: ## Shows this help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
 	awk 'BEGIN {FS = ":.*?## "}; {printf "  %-13s: %s\n", $$1, $$2}'
 
-install: ## Installs package to TEXMF
-	mkdir -p $(TARGET)
-	@for file in $(FILES); do \
-		ln -sf "$$(realpath $$file)" "$(TARGET)/$$(basename $$file)"; \
+cp: ## Copies package into TEXMF
+	@mkdir -p $(TARGET)
+	@for package in $(PACKAGES); do \
+		cp -r "$$(realpath src/$$package)" "$(TARGET)/"; \
+	done
+# 	Not strictly necessary; however, it does not harm.
+	@texhash "$(TEXMF)"
+
+ln: ## Symlinks package into TEXMF
+	@mkdir -p $(TARGET)
+	@for package in $(PACKAGES); do \
+		ln -sf "$$(realpath src/$$package)" "$(TARGET)/"; \
 	done
 # 	Not strictly necessary; however, it does not harm.
 	texhash "$(TEXMF)"
 
-uninstall: ## Removes package from TEXMF
-	@for file in $(FILES); do \
-		rm -f "$(TARGET)/$$(basename $$file)"; \
+rm: ## Removes package from TEXMF
+	@for package in $(PACKAGES); do \
+		rm -r "$(TARGET)/$$(basename $$package)"; \
 	done
 # 	Not strictly necessary; however, it does not harm.
 	texhash $(TEXMF)
