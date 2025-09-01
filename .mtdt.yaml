@@ -1,0 +1,7 @@
+project:
+  name: Dia-Project
+  description: A mechanism for the convenient retrieval of resources required across projects
+  github: https://github.com/kvn-dtrx/dia-project
+  authors:
+    - name: Kvn Dtrx
+      mail: kvn.dtrx+git@protonmail.ch

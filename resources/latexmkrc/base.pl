@@ -6,9 +6,6 @@ $out_dir = 'build';
 # Output directory for auxiliary files.
 $aux_dir = 'build';
 
-# Bibliography mode: # 0=off, 1=bibtex, 2=auto-detect (bibtex/biber).
-$bibtex_use = 2;
-
 # Command to run when compilation fails.
 $failure_cmd = 'echo "** Compilation failed **"';
 
@@ -17,38 +14,6 @@ $preview_mode = 0;
 
 # Whether to enable continuous preview (with -pvc).
 $pvc_view_file_via_temporary = 0;
-
-# Custom viewer (optional)
-$pdf_previewer = "open";
-# $pdf_previewer = 'start evince';
-
-# Whether to automatically rerun if necessary.
-$preview_continuous_mode = 0;
-
-# Whether to silence logfile warnings.
-$silence_logfile_warnings = 1;
-
-# TEXINPUTS (List of directories to look for TeX files).
-$ENV{'TEXINPUTS'} = join(':', (
-    # Includes current directory.
-    '.',
-    # Includes some standard directories recursively (double slash!).
-    'assets//',
-    'classes//',
-    'configs//',
-    'src//',
-    'styles//',
-    # Preserves existing directories.
-    $ENV{'TEXINPUTS'} // '',
-));
-
-# BIBINPUTS (List of directories to look for BibTeX files).
-$ENV{'BIBINPUTS'} = join(':', (
-    # Includes styles directory recursively (double slash!).
-    'bib//', 
-    # Preserves existing directories.
-    $ENV{'BIBINPUTS'} // '',
-));
 
 # List of file extensions to be cleaned up.
 my @my_clean_ext = (
@@ -102,3 +67,32 @@ my @more_generated_exts = (
     'gls',
 );
 push @generated_exts, @more_generated_exts;
+
+# # Custom viewer (optional)
+# $pdf_previewer = 'open';
+# $pdf_previewer = 'start evince';
+
+# Whether to automatically rerun if necessary.
+$preview_continuous_mode = 0;
+
+# Whether to silence logfile warnings.
+$silence_logfile_warnings = 1;
+
+# TEXINPUTS (List of directories to look for TeX files).
+$ENV{'TEXINPUTS'} = join(':', (
+    './/',
+    '../src//',
+    # Preserves existing directories.
+    $ENV{'TEXINPUTS'} // '',
+));
+
+# Bibliography mode: # 0=off, 1=bibtex, 2=auto-detect (bibtex/biber).
+$bibtex_use = 2;
+
+# BIBINPUTS (List of directories to look for BibTeX files).
+$ENV{'BIBINPUTS'} = join(':', (
+    # Includes styles directory recursively (double slash!).
+    'bib//', 
+    # Preserves existing directories.
+    $ENV{'BIBINPUTS'} // '',
+));
