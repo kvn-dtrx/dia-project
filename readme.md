@@ -70,7 +70,7 @@ source = ["/path/to/some/credential", "/path/to/another/credential"]
 target = ".env"
 ```
 
-<!-- 
+<!--
 TODO Document new features:
 - Lists: One may now write [[foo]] for multiple files of the same kind.
 - Copy or symlink.

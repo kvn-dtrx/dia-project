@@ -34,16 +34,14 @@ install: ## Runs setup and apply
 	@${MAKE} setup
 	@${MAKE} apply
 
-# # dev: ## Executes `install` and sets up additional development tools
-# 	$(MAKE) install
+# # dev: install ## Executes `install` and sets up additional development tools
 # 	$(VENV)/bin/python -m pip install -e .[dev]
 # 	$(VENV)/bin/pre-commit install
 
 clear: ## Clears cache files
 	find . -type d -name '__pycache__' | xargs rm -rf --
 
-reset: ## Clears all build artifacts and removes the virtual environment
-	$(MAKE) clear 
+reset: clear ## Clears all build artifacts and removes the virtual environment
 	find . -type d -name '*.egg-info' | xargs rm -rf --
 	rm -rf $(VENV)
 	pyenv local --unset
