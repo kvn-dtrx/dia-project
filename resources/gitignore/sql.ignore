@@ -1,0 +1,10 @@
+# SQL
+
+# Database dump files
+*.sql.gz
+*.sql.tar
+*.dump
+*.sqlite
+
+# DBeaver files
+*.dbeaver-data-sources
