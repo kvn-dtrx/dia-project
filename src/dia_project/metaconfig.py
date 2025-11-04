@@ -5,11 +5,13 @@
 # ---
 
 # Path relative with respect to the repository root.
-DEFAULT_CONFIG_PATH_REL = "src/dia_project/config.toml"
+# DEFAULT_CONFIG_PATH_REL = "src/dia_project/config.toml"
+DEFAULT_CONFIG_PATH_REL = "src/dia_project/config.yaml"
 DEFAULT_RESOURCES_PATH_REL = "resources/"
 
 # Path relative with respect to the home directory.
-USER_CONFIG_PATH_REL = ".config/dia-project/config.toml"
+# USER_CONFIG_PATH_REL = ".config/dia-project/config.toml"
+USER_CONFIG_PATH_REL = ".config/dia-project/config.yaml"
 
 # Path relative with respect to the resources directory.
 TEMPLATE_PATH_REL = "template.j2"

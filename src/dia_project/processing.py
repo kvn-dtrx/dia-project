@@ -50,7 +50,8 @@ def process(session: Box) -> None:
 def process_project(session: Box, root: Path) -> None:
     manifest_file = session.general.manifest
     manifest_path = root / manifest_file
-    tasks = from_toml(manifest_path)
+    # tasks = from_toml(manifest_path)
+    tasks = from_yaml(manifest_path)
     for k_task, v_tasks in tasks.items():
         task_passed = session.ephemeral.section_filter(k_task)
         if task_passed:

@@ -5,6 +5,7 @@
 # ---
 
 import tomllib
+import yaml
 import logging
 import sys
 from box import Box
@@ -30,6 +31,21 @@ def from_toml(toml_path: Path) -> Box:
 def from_default_toml() -> Box:
     data = from_toml(DEFAULT_CONFIG_PATH)
     return data
+
+
+def from_yaml(yaml_path: Path) -> Box:
+    try:
+        with open(yaml_path, "r", encoding="utf-8") as f:
+            data_ = yaml.safe_load(f)
+        data = Box(data_, default_box=True)
+    except Exception as e:
+        logging.error(f"Failed to parse YAML file:\n  {yaml_path}\n  {e}")
+        sys.exit(1)
+    return data
+
+
+def from_default_yaml() -> Box:
+    return from_yaml(DEFAULT_CONFIG_PATH)
 
 
 def from_file(text_path: Path) -> Optional[str]:

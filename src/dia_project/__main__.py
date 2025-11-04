@@ -15,6 +15,7 @@ target = "relative/path/to/outputfile"
 import sys
 import logging
 from .utils import from_default_toml
+from .utils import from_default_yaml
 from .arg_parsing import from_args
 from .processing import process
 from box import Box
@@ -31,7 +32,8 @@ if os.geteuid() == 0:
 def main() -> int:
     session = Box(default_box=True)
     # try:
-    updates = from_default_toml()
+    # updates = from_default_toml()
+    updates = from_default_yaml()
     session.merge_update(updates)
     updates = from_args()
     session.merge_update(updates)
