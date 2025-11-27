@@ -33,3 +33,11 @@ Thumbs.db
 log/
 logs/
 tmp/
+
+# Local environment variables
+.env
+.env.*
+!.env.example
+.envrc
+.envrc.*
+!.envrc.example

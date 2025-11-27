@@ -71,7 +71,7 @@ target = ".env"
 ```
 
 <!--
-TODO Document new features:
+TODO: Document new features:
 - Lists: One may now write [[foo]] for multiple files of the same kind.
 - Copy or symlink.
 -->

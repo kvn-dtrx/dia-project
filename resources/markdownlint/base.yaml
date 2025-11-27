@@ -4,7 +4,7 @@ default: true
 # MD004/ul-style: Unordered list style
 MD004:
   # Dashes as unordered list item.
-  style: "dash"
+  style: dash
 
 # MD007/ul-indent: Unordered list indentation.
 MD007:
@@ -24,6 +24,10 @@ MD026:
 # MD033/no-inline-html: Inline HTML.
 MD033: false
 
+# MD049/emphasis-style: Emphasis style.
+MD049:
+  style: asterisk
+
 # MD050/strong-style: Strong style.
 MD050:
-  style: "asterisk"
+  style: asterisk

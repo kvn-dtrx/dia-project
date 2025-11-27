@@ -15,6 +15,7 @@ from .utils import *
 
 
 CMT = {
+    "env": ("# ", ""),
     "flake8": ("# ", ""),
     "gitignore": ("# ", ""),
     "latexmkrc": ("# ", ""),
@@ -75,7 +76,19 @@ def process_project_task(
     else:
         as_symlink = False
     resources = DEFAULT_RESOURCES_PATH
-    sources = [resources / name / source for source in sources_]
+    sources = []
+    for source in sources_:
+        tmp = resources / name / source
+        if tmp.exists():
+            sources.append(tmp)
+        else:
+            tmp = Path(source).expanduser()
+            if tmp.exists():
+                sources.append(tmp)
+            else:
+                print("Not found:", tmp)
+                return
+    # sources = [resources / name / source for source in sources_]
     target = (root / target_).resolve()
     target.parent.mkdir(parents=True, exist_ok=True)
     if not as_symlink:
