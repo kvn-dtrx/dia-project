@@ -39,9 +39,9 @@ install: ## Runs setup and apply
 # 	$(VENV)/bin/pre-commit install
 
 clear: ## Clears cache files
-	find . -type d -name '__pycache__' | xargs rm -rf --
+	find . -type d -name "__pycache__" | xargs rm -rf --
 
 reset: clear ## Clears all build artifacts and removes the virtual environment
-	find . -type d -name '*.egg-info' | xargs rm -rf --
+	find . -type d -name "*.egg-info" | xargs rm -rf --
 	rm -rf $(VENV)
 	pyenv local --unset
