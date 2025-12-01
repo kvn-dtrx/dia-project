@@ -1,0 +1,125 @@
+# General
+
+# Hierarchy after which file extension to search if
+# only jobname was specified
+fileExtensionPreference:
+  .tex: 1
+  .sty: 2
+  .cls: 3
+  .bib: 4
+
+# 
+inputEncoding: utf8
+
+# ---
+
+# Backup and Log File Preferences
+
+# Backup (core) extension to use
+backupExtension: .bkp
+
+# Whether to keep only one backup per file
+onlyOneBackUp: 0
+
+# Maximum number of backups to keep (0 = no maximum)
+maxNumberOfBackUps: 0
+
+# Whether to cycle through backup files
+cycleThroughBackUps: 0
+
+# Log file preferences
+logFilePreferences:
+  # Whether to list every YAML file which is read
+  showEveryYamlRead: 1
+  # Whether to list the amalgamated set of configuration settings used
+  showAmalgamatedSettings: 0
+  # Whether to log a details trace when processing a code block is started/finished
+  showDecorationStartCodeBlockTrace: 0
+  showDecorationFinishCodeBlockTrace: 0
+  # Delimiter signifying the end of the log file
+  endLogFileWith: "--------------"
+  # Whether to include a footer with links to the utility's GitHub page
+  showGitHubInfoFooter: 1
+  Dumper:
+    Terse: 1
+    Indent: 1
+    Useqq: 1
+    Deparse: 1
+    Quotekeys: 0
+    Sortkeys: 1
+    Pair: " => "
+  PatternLayout:
+    default: "%A%n"
+    trace: "%A%n"
+    ttrace: "%A%n"
+
+# ---
+
+# Verbatim Code Blocks
+
+# Environment that should not be changed at all
+verbatimEnvironments:
+  verbatim: 1
+  lstlisting: 1
+  minted: 1
+
+#
+verbatimCommands:
+  verb: 1
+  lstinline: 1
+
+# ---
+
+# Indentation and Horizontal Spaces
+
+# Default indentation value
+defaultIndent: "    "
+
+# Whether to remove trailing whitespaces
+removeTrailingWhitespace:
+  beforeProcessing: 0
+  afterProcessing: 1
+
+# Whether to align columns in tabular-like environments
+lookForAlignDelims:
+  tabular:
+    delims: 1
+    alignDoubleBackSlash: 1
+    spacesBeforeDoubleBackSlash: 1
+    multiColumnGrouping: 0
+    alignRowsWithoutMaxDelims: 1
+    spacesBeforeAmpersand: 1
+    spacesAfterAmpersand: 1
+    justification: "left"
+  tabularx:
+    delims: 1
+  longtable: 1
+  tabu: 1
+  array: 1
+  matrix: 1
+  bmatrix: 1
+  Bmatrix: 1
+  pmatrix: 1
+  vmatrix: 1
+  Vmatrix: 1
+  align: 1
+  align*: 1
+  alignat: 1
+  alignat*: 1
+  aligned: 1
+  cases: 1
+  dcases: 1
+  listabla: 1
+
+# ---
+
+# Indent after Items, Specials and Headings
+
+indentAfterItems:
+  itemize: 1
+  itemize*: 1
+  enumerate: 1
+  enumerate*: 1
+  description: 1
+  description*: 1
+  list: 1
