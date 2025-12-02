@@ -22,15 +22,15 @@ $(OUTDIR)/$(MAIN).pdf: $(MAIN).tex $(STYLE) | $(OUTDIR) ## Compiles the main LaT
 
 clean: ## Removes all generated files except output files and .gitkeep
 	find $(OUTDIR) -mindepth 1 \
-		-not -name "*.pdf" \
-		-not -name "*.png" \
-		-not -name "*.jpg" \
-		-not -name ".gitkeep" \
+		-not -iname "*.pdf" \
+		-not -iname "*.png" \
+		-not -iname "*.jpg" \
+		-not -iname ".gitkeep" \
 		-print0 | xargs -0 rm -rf --
 
 reset: ## Remove all generated files including pdfs except .gitkeep
 	find $(OUTDIR) -mindepth 1 \
-		-not -name ".gitkeep" \
+		-not -iname ".gitkeep" \
 		-print0 | xargs -0 rm -rf --
 
 rebuild: ## Cleans all outputs and rebuild everything
