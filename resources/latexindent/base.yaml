@@ -7,26 +7,20 @@ fileExtensionPreference:
   .sty: 2
   .cls: 3
   .bib: 4
-
 # 
 inputEncoding: utf8
-
 # ---
 
 # Backup and Log File Preferences
 
 # Backup (core) extension to use
 backupExtension: .bkp
-
 # Whether to keep only one backup per file
 onlyOneBackUp: 0
-
 # Maximum number of backups to keep (0 = no maximum)
 maxNumberOfBackUps: 0
-
 # Whether to cycle through backup files
 cycleThroughBackUps: 0
-
 # Log file preferences
 logFilePreferences:
   # Whether to list every YAML file which is read
@@ -52,7 +46,6 @@ logFilePreferences:
     default: "%A%n"
     trace: "%A%n"
     ttrace: "%A%n"
-
 # ---
 
 # Verbatim Code Blocks
@@ -62,24 +55,20 @@ verbatimEnvironments:
   verbatim: 1
   lstlisting: 1
   minted: 1
-
 #
 verbatimCommands:
   verb: 1
   lstinline: 1
-
 # ---
 
 # Indentation and Horizontal Spaces
 
 # Default indentation value
 defaultIndent: "    "
-
 # Whether to remove trailing whitespaces
 removeTrailingWhitespace:
   beforeProcessing: 0
   afterProcessing: 1
-
 # Whether to align columns in tabular-like environments
 lookForAlignDelims:
   tabular:
@@ -110,11 +99,9 @@ lookForAlignDelims:
   cases: 1
   dcases: 1
   listabla: 1
-
 # ---
 
 # Indent after Items, Specials and Headings
-
 indentAfterItems:
   itemize: 1
   itemize*: 1

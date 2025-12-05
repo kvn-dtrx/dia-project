@@ -2,48 +2,39 @@ general:
   manifest: ".dia.yaml"
   additional_resources: []
   log_level: "INFO"
-
 srctar:
   flake8:
     sources:
       - base.ini
     target: ".flake8"
-
   gitignore:
     sources:
       - base.ignore
     target: ".gitignore"
-
   latexmkrc:
     sources:
       - base.pl
     target: ".latexmkrc"
-
   license:
     sources:
       - mit.txt
     target: "license.txt"
-
   makefile:
     sources:
       - python-package.mk
     target: "makefile"
-
   markdownlint:
     sources:
       - base.yaml
     target: ".markdownlint.yaml"
-
   prettierrc:
     sources:
       - base.jsonc
     target: ".prettierrc"
-
   pylintrc:
     sources:
       - base.toml
     target: ".pylintrc"
-
   readme:
     sources:
       - base.md
