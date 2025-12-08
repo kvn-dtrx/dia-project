@@ -82,9 +82,7 @@ def fill_template(
             try:
                 with source.open("r", encoding="utf-8") as f:
                     contents.append(f.read())
-                logging.debug(
-                    f"Reading source file was successful:\n  {source}"
-                )
+                logging.debug(f"Reading source file was successful:\n  {source}")
             except Exception as e:
                 logging.error(f"Failed to read {source}: {e}")
         else:

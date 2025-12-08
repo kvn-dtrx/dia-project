@@ -1,7 +1,7 @@
 general:
   manifest: ".dia.yaml"
-  additional_resources: []
-  log_level: "INFO"
+  additional-resources: []
+  log-level: "INFO"
 srctar:
   flake8:
     sources:
