@@ -12,15 +12,15 @@ target = "relative/path/to/outputfile"
 
 # ---
 
-import sys
 import logging
-from .utils import from_default_toml
-from .utils import from_default_yaml
+import os
+import sys
+
+from box import Box
+
 from .arg_parsing import from_args
 from .processing import process
-from box import Box
-import os
-
+from .utils import from_default_yaml
 
 logging.basicConfig(level=logging.INFO, format="[%(levelname)s] %(message)s")
 

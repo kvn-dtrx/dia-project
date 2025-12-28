@@ -5,14 +5,12 @@
 # ---
 
 import logging
-from typing import List
-from typing import Optional
 from pathlib import Path
-from box import Box
-from box import BoxList
+
+from box import Box, BoxList
+
 from .metaconfig import *
 from .utils import *
-
 
 CMT = {
     "env": ("# ", ""),
@@ -28,7 +26,7 @@ CMT = {
 }
 
 
-def get_resource(directories: List[Path], name: str) -> Optional[Path]:
+def get_resource(directories: list[Path], name: str) -> Path | None:
     for directory in directories:
         for path in directory.rglob(name):
             if path.is_file():
@@ -36,7 +34,7 @@ def get_resource(directories: List[Path], name: str) -> Optional[Path]:
 
 
 def process(session: Box) -> None:
-    directories: List[Path] = session.ephemeral.directories
+    directories: list[Path] = session.ephemeral.directories
     manifest = session.general.manifest
     for directory in directories:
         base = Path(directory)
@@ -90,7 +88,7 @@ def process_project_task(session: Box, root: Path, key: str, task: Box) -> None:
     target = (root / target_).resolve()
     target.parent.mkdir(parents=True, exist_ok=True)
     if not as_symlink:
-        contents: List[str] = []
+        contents: list[str] = []
         for source in sources:
             content = from_file(source)
             if not content is None:

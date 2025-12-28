@@ -6,9 +6,10 @@
 
 import argparse
 import logging
-from box import Box
+from collections.abc import Callable
 from pathlib import Path
-from typing import Callable
+
+from box import Box
 
 
 def get_parser() -> argparse.ArgumentParser:

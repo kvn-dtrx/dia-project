@@ -4,16 +4,16 @@
 
 # ---
 
-import tomllib
-import yaml
 import logging
 import sys
-from box import Box
 from datetime import datetime
 from pathlib import Path
+
+import tomllib
+import yaml
+from box import Box
 from jinja2 import Template
-from typing import List
-from typing import Optional
+
 from .metaconfig import *
 
 
@@ -35,7 +35,7 @@ def from_default_toml() -> Box:
 
 def from_yaml(yaml_path: Path) -> Box:
     try:
-        with open(yaml_path, "r", encoding="utf-8") as f:
+        with open(yaml_path, encoding="utf-8") as f:
             data_ = yaml.safe_load(f)
         data = Box(data_, default_box=True)
     except Exception as e:
@@ -48,9 +48,9 @@ def from_default_yaml() -> Box:
     return from_yaml(DEFAULT_CONFIG_PATH)
 
 
-def from_file(text_path: Path) -> Optional[str]:
+def from_file(text_path: Path) -> str | None:
     try:
-        with open(text_path, "r") as f:
+        with open(text_path) as f:
             text = f.read()
         # data = Box(text_, default_box=True)
     except Exception as e:
@@ -61,10 +61,10 @@ def from_file(text_path: Path) -> Optional[str]:
 
 def fill_template(
     template_path: Path,
-    sources: List[Path],
+    sources: list[Path],
     file_type: str,
     filename: str,
-) -> Optional[str]:
+) -> str | None:
     logging.debug(f"Reading template file: {template_path}")
     try:
         with template_path.open("r", encoding="utf-8") as f:
@@ -75,7 +75,7 @@ def fill_template(
         return
     template = Template(template_text)
     now_iso = datetime.now().replace(microsecond=0).isoformat()
-    contents: List[str] = []
+    contents: list[str] = []
     for source in sources:
         if source.is_file():
             logging.debug(f"Reading source file: {source}")
