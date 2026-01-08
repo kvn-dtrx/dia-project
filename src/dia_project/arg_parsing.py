@@ -1,5 +1,6 @@
 # ---
-# description: CLI argparsing logic
+# description: |
+#   Parses CLI arguments for dia-project
 # ---
 
 # ---
@@ -70,10 +71,14 @@ def from_args() -> Box:
         parser.error("Cannot use both --whitelist and --blacklist.")
 
     if parsed_args.resources:
-        additional_resources = [p.strip() for p in parsed_args.resources.split(",")]
+        additional_resources = [
+            p.strip() for p in parsed_args.resources.split(",")
+        ]
         config["general"]["additional_resources"] = additional_resources
 
-    config["ephemeral"]["directories"] = [Path(dir) for dir in parsed_args.directories]
+    config["ephemeral"]["directories"] = [
+        Path(dir) for dir in parsed_args.directories
+    ]
 
     section_filter: Callable[[str], bool]
     if parsed_args.whitelist:

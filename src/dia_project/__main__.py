@@ -1,5 +1,5 @@
 # ---
-# description: Copies isolated resources specified in .dia-pull.toml.
+# title: dia-project initialisation on execution
 # ---
 
 """

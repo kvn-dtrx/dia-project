@@ -18,6 +18,6 @@
 # Removes temporary files or build artifacts.
 
 # Uninstall = Undo Install
-# Remove deployed files, binaries, or symlinks 
+# Removes deployed files, binaries, or symlinks
 
 # Reset = Undo Setup

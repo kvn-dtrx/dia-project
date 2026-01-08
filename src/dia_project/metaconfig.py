@@ -1,5 +1,5 @@
 # ---
-# description: Stores the required meta configurations.
+# title: Meta configurations for dia-project
 # ---
 
 # ---
