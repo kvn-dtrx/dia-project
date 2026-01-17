@@ -1,3 +1,9 @@
+# ---
+# title: Makefile for <name>
+# ---
+
+# ---
+
 TEX=pdflatex
 MAIN=main
 STYLE=styles/styles.sty
@@ -5,8 +11,8 @@ OUTDIR=target
 
 .PHONY: build clean reset rebuild
 
-help: ## Shows this help
-	@echo "Available targets for make:"
+help: ## Displays available targets with description
+	@printf "Available targets for make:\n"
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
 	awk 'BEGIN {FS = ":.*?## "}; {printf "  %-13s: %s\n", $$1, $$2}'
 

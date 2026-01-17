@@ -1,43 +1,31 @@
-SRC := $(wildcard src/*)
-PACKAGES := $(patsubst src/%,%,$(SRC))
+# ---
+# title: Makefile for <name>
+# ---
 
-UNAME_S := $(shell uname -s)
-ifeq ($(TEXMF),)
-    ifeq ($(UNAME_S),Darwin)
-        TEXMF := $(HOME)/Library/texmf
-    else
-        TEXMF := $(HOME)/texmf
-    endif
-endif
+# ---
 
-TARGET = $(TEXMF)/tex/latex
+DST:=$(shell kpsewhich -var-value=TEXMFHOME)
 
-.PHONY: help install uninstall
+.PHONY: help cp ln rm
 
-help: ## Shows this help
-	@echo "Available targets for make:"
+help: ## Displays available targets with description
+	@printf "Available targets for make:\n"
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
 	awk 'BEGIN {FS = ":.*?## "}; {printf "  %-13s: %s\n", $$1, $$2}'
 
 cp: ## Copies package into TEXMF
-	@mkdir -p $(TARGET)
-	@for package in $(PACKAGES); do \
-		cp -r "$$(realpath src/$$package)" "$(TARGET)/"; \
+	@mkdir -p $(DST)
+	@for package in src/*/; do \
+		cp -r "$${package}" "$(DST)/"; \
 	done
-# 	Not strictly necessary; however, it does not harm.
-	@texhash "$(TEXMF)"
 
 ln: ## Symlinks package into TEXMF
-	@mkdir -p $(TARGET)
-	@for package in $(PACKAGES); do \
-		ln -sf "$$(realpath src/$$package)" "$(TARGET)/"; \
+	@mkdir -p $(DST)
+	@for package in src/*/; do \
+		ln -sf "$${package}" "$(DST)/"; \
 	done
-# 	Not strictly necessary; however, it does not harm.
-	texhash "$(TEXMF)"
 
 rm: ## Removes package from TEXMF
 	@for package in $(PACKAGES); do \
-		rm -r "$(TARGET)/$$(basename $$package)"; \
+		rm -r "$(DST)/$$(basename $$package)"; \
 	done
-# 	Not strictly necessary; however, it does not harm.
-	texhash $(TEXMF)

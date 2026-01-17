@@ -1,3 +1,9 @@
+# ---
+# title: Makefile for dia-project
+# ---
+
+# ---
+
 PYTHON_VERSION := 3.11.3
 VENV := .venv
 XDG_BIN_HOME ?= $(HOME)/.local/bin
@@ -8,7 +14,7 @@ RESET := \033[0m
 TARGETS := help install dev reset
 .PHONY: $(TARGETS)
 
-help: ## Shows this help
+help: ## Displays available targets with description
 	@echo
 	@echo "    $(BOLD_WHITE)Available targets for make:$(RESET)"
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
@@ -41,7 +47,7 @@ install: ## Runs setup and apply
 clear: ## Clears cache files
 	find . -type d -iname "__pycache__" | xargs rm -rf --
 
-reset: clear ## Clears all build artifacts and removes the virtual environment
+reset: clear ## Clears all build artefacts and removes the virtual environment
 	find . -type d -iname "*.egg-info" | xargs rm -rf --
 	rm -rf $(VENV)
 	pyenv local --unset

@@ -1,6 +1,6 @@
 # Base
 
-# Output directory for PDF and other build artifacts.
+# Output directory for PDF and other build artefacts.
 $out_dir = 'build';
 
 # Output directory for auxiliary files.

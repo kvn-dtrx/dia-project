@@ -41,10 +41,10 @@ def process(session: Box) -> None:
         base = Path(directory)
         for path in base.rglob(manifest):
             if path.is_file():
-                path_parent = path.parent.resolve()
-                logging.info(f"Processing manifest in:\n  {path_parent}")
-                process_project(session, path_parent)
-                logging.info(f"Processed manifest in:\n  {path_parent}")
+                parent = path.parent.resolve()
+                logging.info(f"Processing manifest in:\n  {parent}")
+                process_project(session, parent)
+                logging.info(f"Processed manifest in:\n  {parent}")
 
 
 def process_project(session: Box, root: Path) -> None:

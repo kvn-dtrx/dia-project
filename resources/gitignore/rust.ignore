@@ -7,7 +7,7 @@
 # Incremental compilation files
 **/target/**/incremental/
 
-# Build artifacts for tools like cargo check, clippy, etc.
+# Build artefacts for tools like cargo check, clippy, etc.
 **/*.rs.bk
 
 # By-products of rustup/cargo
