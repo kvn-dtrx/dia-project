@@ -5,30 +5,19 @@
 # ---
 
 PYTHON_VERSION := 3.11.3
-VENV := .venv
+VENV ?= .venv
 XDG_BIN_HOME ?= $(HOME)/.local/bin
-
-BOLD_WHITE := \033[1;37m
-RESET := \033[0m
 
 TARGETS := help install dev reset
 .PHONY: $(TARGETS)
 
-help: ## Displays available targets with description
-	@echo
-	@echo "    $(BOLD_WHITE)Available targets for make:$(RESET)"
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
-	awk 'BEGIN {FS = ":.*?## "}; {printf "    %-13s: %s\n", $$1, $$2}'
-	@echo
-	@echo "    $(BOLD_WHITE)Important Make Flags:$(RESET)"
-	@echo "    -n              : Dry-run (print commands without running them)"
-	@echo "    -s              : Silent mode (don't print executed commands)"
-	@echo "    --debug[=b|v|a] : Debug info (b=basic [default], v=verbose, a=all)"
-	@echo
+_help: ## Displays available targets with description
+	@scripts/make-help.sh
 
 setup: ## Links binaries
 	ln -sf "$(CURDIR)/scripts/invoke.sh" "$(XDG_BIN_HOME)/dia"
 	chmod +x "$(XDG_BIN_HOME)/dia"
+# TODO: Provide a cp and an ln-s option
 
 apply: ## Installs the module and creates a symlink to a directory in the PATH
 	pyenv local $(PYTHON_VERSION)
@@ -36,9 +25,7 @@ apply: ## Installs the module and creates a symlink to a directory in the PATH
 	$(VENV)/bin/python -m pip install --upgrade pip
 	$(VENV)/bin/python -m pip install -e .
 
-install: ## Runs setup and apply
-	@${MAKE} setup
-	@${MAKE} apply
+install: setup apply ## Runs setup and apply
 
 # # dev: install ## Executes `install` and sets up additional development tools
 # 	$(VENV)/bin/python -m pip install -e .[dev]
