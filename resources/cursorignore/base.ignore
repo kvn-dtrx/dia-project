@@ -1,0 +1,12 @@
+# Base
+
+# Outdated or historical documentation that is still versioned
+**/docs/archive/
+**/docs/old/
+**/docs/legacy/
+
+# Experimentation areas
+scratch/
+experimental/
+spikes/
+playground/

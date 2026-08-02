@@ -61,9 +61,7 @@ def process_project(session: Box, root: Path) -> None:
                 process_project_task(session, root, k_task, v_task)
 
 
-def process_project_task(
-    session: Box, root: Path, key: str, task: Box
-) -> None:
+def process_project_task(session: Box, root: Path, key: str, task: Box) -> None:
     name = key
     sources_ = task.sources
     if not sources_:
@@ -105,9 +103,7 @@ def process_project_task(
         separator = f"\n{cmtbeg}---{cmtend}\n\n"
         content = separator.join(contents)
         if session.ephemeral.dry_run:
-            logging.info(
-                f"Would write:\n  Sources: {sources_}\n  Target : {target}"
-            )
+            logging.info(f"Would write:\n  Sources: {sources_}\n  Target : {target}")
         else:
             try:
                 logging.debug(f"Writing target file: {target}")

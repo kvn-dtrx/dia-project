@@ -1,7 +1,10 @@
 project:
+  id: 79d97608-454f-44ac-ab2e-ca4748c91add
   name: Dia-Project
   description: A mechanism for the convenient retrieval of resources required across projects
-  github: https://github.com/kvn-dtrx/dia-project
+  github:
+    url: https://github.com/kvn-dtrx/dia-project
+    visibility: public
   authors:
     - name: Kvn Dtrx
       mail: kvn.dtrx+git@protonmail.ch

@@ -1,4 +1,4 @@
-# General
+# --- General ---
 
 # Hierarchy after which file extension to search if
 # only jobname was specified
@@ -7,14 +7,13 @@ fileExtensionPreference:
   .sty: 2
   .cls: 3
   .bib: 4
-#
+# Encoding of the input files
 inputEncoding: utf8
-# ---
 
-# Backup and Log File Preferences
+# --- Backup and Log File Preferences ---
 
 # Backup (core) extension to use
-backupExtension: .bkp
+backupExtension: .bak
 # Whether to keep only one backup per file
 onlyOneBackUp: 0
 # Maximum number of backups to keep (0 = no maximum)
@@ -46,22 +45,18 @@ logFilePreferences:
     default: "%A%n"
     trace: "%A%n"
     ttrace: "%A%n"
-# ---
-
-# Verbatim Code Blocks
+# --- Verbatim Code Blocks ---
 
 # Environment that should not be changed at all
 verbatimEnvironments:
   verbatim: 1
   lstlisting: 1
   minted: 1
-#
+# Commands that should not be changed at all
 verbatimCommands:
   verb: 1
   lstinline: 1
-# ---
-
-# Indentation and Horizontal Spaces
+# --- Indentation and Horizontal Spaces ---
 
 # Default indentation value
 defaultIndent: "    "
@@ -91,17 +86,22 @@ lookForAlignDelims:
   pmatrix: 1
   vmatrix: 1
   Vmatrix: 1
-  align: 1
-  align*: 1
-  alignat: 1
-  alignat*: 1
-  aligned: 1
-  cases: 1
-  dcases: 1
+  align:
+    delims: 0
+  align*:
+    delims: 0
+  alignat:
+    delims: 0
+  alignat*:
+    delims: 0
+  aligned:
+    delims: 0
+  cases:
+    delims: 0
+  dcases:
+    delims: 0
   listabla: 1
-# ---
-
-# Indent after Items, Specials and Headings
+# --- Indent after Items, Specials and Headings ---
 indentAfterItems:
   itemize: 1
   itemize*: 1

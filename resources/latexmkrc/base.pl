@@ -17,55 +17,21 @@ $pvc_view_file_via_temporary = 0;
 
 # List of file extensions to be cleaned up.
 my @my_clean_ext = (
-    'acn',
-    'acr',
-    'alg',
-    'aux',
-    'bbl',
-    'bbl-SAVE-ERROR',
-    '*.bcf',
-    '*.bcf-SAVE-ERROR',
-    'blg',
-    'fdb_latexmk',
-    'fls',
-    'glg',
-    'glo',
-    'gls',
-    'idx',
-    'ilg',
-    'ind',
-    'ist',
-    'lof',
-    'log',
-    'lol',
-    'lot',
-    'maf',
-    'mtc',
-    'mtc0',
-    'nav',
-    'out',
-    'snm',
-    'synctex.gz',
-    'tmp',
-    'thm',
-    'toc',
-    'vrb',
-    'wrt',
-    'xdy',
+    'acn',        'acr',            'alg',   'aux',
+    'bbl',        'bbl-SAVE-ERROR', '*.bcf', '*.bcf-SAVE-ERROR',
+    'blg',        'fdb_latexmk',    'fls',   'glg',
+    'glo',        'gls',            'idx',   'ilg',
+    'ind',        'ist',            'lof',   'log',
+    'lol',        'lot',            'maf',   'mtc',
+    'mtc0',       'nav',            'out',   'snm',
+    'synctex.gz', 'tmp',            'thm',   'toc',
+    'vrb',        'wrt',            'xdy',
 );
-$clean_ext = join(' ', @my_clean_ext);
+$clean_ext = join( ' ', @my_clean_ext );
 
 # List of generated extensions to add.
-my @more_generated_exts = (
-    'acn',
-    'acr',
-    'alg',
-    'bbl',
-    'blg',
-    'glg',
-    'glo',
-    'gls',
-);
+my @more_generated_exts =
+  ( 'acn', 'acr', 'alg', 'bbl', 'blg', 'glg', 'glo', 'gls', );
 push @generated_exts, @more_generated_exts;
 
 # # Custom viewer (optional)
@@ -79,20 +45,28 @@ $preview_continuous_mode = 0;
 $silence_logfile_warnings = 1;
 
 # TEXINPUTS (List of directories to look for TeX files).
-$ENV{'TEXINPUTS'} = join(':', (
-    './/',
-    '../src//',
-    # Preserves existing directories.
-    $ENV{'TEXINPUTS'} // '',
-));
+$ENV{'TEXINPUTS'} = join(
+    ':',
+    (
+        './/',
+        '../src//',
+
+        # Preserves existing directories.
+        $ENV{'TEXINPUTS'} // '',
+    )
+);
 
 # Bibliography mode: # 0=off, 1=bibtex, 2=auto-detect (bibtex/biber).
 $bibtex_use = 2;
 
 # BIBINPUTS (List of directories to look for BibTeX files).
-$ENV{'BIBINPUTS'} = join(':', (
-    # Includes styles directory recursively (double slash!).
-    'bib//',
-    # Preserves existing directories.
-    $ENV{'BIBINPUTS'} // '',
-));
+$ENV{'BIBINPUTS'} = join(
+    ':',
+    (
+        # Includes styles directory recursively (double slash!).
+        'bib//',
+
+        # Preserves existing directories.
+        $ENV{'BIBINPUTS'} // '',
+    )
+);
