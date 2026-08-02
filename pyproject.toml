@@ -5,8 +5,10 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "dia-project"
 version = "0.1.0"
-description = "Conveniently retrieves resources required across projects"
-authors = [{ name = "kvn.dtrx", email = "kvn.dtrx+github@protonmail.ch" }]
+description = "Embeds shared snippets into project files at configurable markers; snippet library lives in dia-resources"
+authors = [
+    {name = "Kvn Dtrx", email = "kvn.dtrx+git@protonmail.ch"},
+]
 readme = "readme.md"
 requires-python = ">=3.11"
 license = { file = "license.txt" }
@@ -59,3 +61,8 @@ target-version = ["py39"]
 # minversion = "6.0"
 # addopts = "-ra -q"
 # testpaths = ["tests"]
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "-ra -q"
+testpaths = ["tests"]

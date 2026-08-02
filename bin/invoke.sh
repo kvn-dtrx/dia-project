@@ -1,9 +1,8 @@
 #!/usr/bin/env sh
 
 # ---
-# description: |
-#   Runs the following binary using its virtual environment: __main__.py
-#   from https://github.com/kvn-dtrx/dia-project/src/dia_project
+# description: >-
+#   Runs dia via the repository .venv (`python -m dia_project`)
 # ---
 
 # ---

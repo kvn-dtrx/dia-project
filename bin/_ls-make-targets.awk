@@ -1,7 +1,7 @@
 #!/usr/bin/env -S awk -f
-
+# dia:begin scripts/_ls-make-targets.awk
 # ---
-# description: |
+# description: >-
 #   Lists all make targets with description; more precisely, all lines
 #   conceptually matching "pattern: ## description"
 # ---
@@ -14,7 +14,7 @@ BEGIN {
     # Ignore hidden targets by default; specify
     # -v target_pattern="^[A_Za-z_-]+$" for inclusion
     if (target_pattern == "") {
-        target_pattern = "^[A-Za-z][A_Za-z_-]*$"
+        target_pattern = "^[A-Za-z][A-Za-z_-]*$"
     }
 }
 
@@ -33,3 +33,4 @@ END {
         printf "%-*s: %s\n", max, targets[i], desc[i]
     }
 }
+# dia:end

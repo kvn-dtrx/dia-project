@@ -1,41 +1,7 @@
 general:
-  manifest: ".dia.yaml"
-  additional-resources: []
-  log-level: "INFO"
-srctar:
-  flake8:
-    sources:
-      - base.ini
-    target: ".flake8"
-  gitignore:
-    sources:
-      - base.ignore
-    target: ".gitignore"
-  latexmkrc:
-    sources:
-      - base.pl
-    target: ".latexmkrc"
-  license:
-    sources:
-      - mit.txt
-    target: "license.txt"
-  makefile:
-    sources:
-      - python-package.mk
-    target: "makefile"
-  markdownlint:
-    sources:
-      - base.yaml
-    target: ".markdownlint.yaml"
-  prettierrc:
-    sources:
-      - base.jsonc
-    target: ".prettierrc"
-  pylintrc:
-    sources:
-      - base.toml
-    target: ".pylintrc"
-  readme:
-    sources:
-      - base.md
-    target: ".pylintrc"
+  log_level: "INFO"
+  # Shared snippet library (dia-resources), wired via `make install`
+  # into the XDG data home. XDG_DATA_HOME defaults to ~/.local/share when unset.
+  resources: "${XDG_DATA_HOME}/dia/resources"
+  # Marker keyword used as `<marker>:begin` / `<marker>:end`.
+  marker: "dia"

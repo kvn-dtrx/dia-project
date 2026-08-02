@@ -1,3 +1,4 @@
+# dia:begin gitignore/base.ignore
 # Base
 
 # macOS
@@ -7,6 +8,11 @@
 .LSOverride
 .Spotlight-V100
 .Trashes
+* [0-9]
+* [0-9].*
+* copy
+* copy.*
+*.nosync/
 Icon[[]]
 
 # Linux
@@ -30,13 +36,23 @@ log/
 logs/
 tmp/
 
-# ---
+# Local environment variables
+.env
+.env.*
+!.env.example
+.envrc
+.envrc.*
+!.envrc.example
+# dia:end
 
+# dia:begin gitignore/python.ignore
 # Python
 
 __pycache__/
-/.python-version
-/.venv/
 *.egg-info/
 *.pyc
 *.pyi
+/.python-version
+/.venv/
+local_settings.py
+# dia:end

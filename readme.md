@@ -2,103 +2,89 @@
 
 ## Synopsis
 
-This repository provides a convenient mechanism for retrieving resources—such as `.gitignore` or `.pylintrc` files—that are required across (*διά*) projects but for which incorporation via embedded Git repositories (i.e., submodules or subtrees) or symbolic links is deemed inappropriate.
-
-Furthermore, a very small example library of such resources is included.
+Dia embeds shared snippets into project files at `dia:begin` / `dia:end`
+markers. The production snippet library lives in a separate repository
+([dia-resources](https://github.com/kvn-dtrx/dia-resources)); this repo is
+the embed engine plus a tiny `examples/` tree for tests and illustration.
 
 ## Installation
 
 ### Requirements
 
-- macOS/Linux (currently)
-- Python 3.11
-- pyenv
+- macOS/Linux
+- Python 3.11+
+- pyenv (optional, for the Makefile flow)
 
 ### Setup
 
-1. Navigate to a working directory of your choice—such as `${XDG_DATA_HOME}`—then clone the repository and enter it:
+1. Clone and install dia:
 
-    ``` shell
-    git clone https://github.com/kvn-dtrx/dia-project.git &&
-       cd dia-project
+    ```shell
+    git clone https://github.com/kvn-dtrx/dia-project.git
+    cd dia-project
+    make install
     ```
 
-2. Choose a setup option based on ~~your operating system and~~ intended use. If you prefer to run the commands manually yourself or want to inspect what each make target does first, use the `-n` flag for a dry run. This prints the commands without executing them:
+2. Clone the snippet library and wire it into the XDG data home:
 
-    ``` shell
-    make -n <target>
+    ```shell
+    git clone https://github.com/kvn-dtrx/dia-resources.git
+    cd dia-resources
+    make install
     ```
+
+   That creates `${XDG_DATA_HOME:-~/.local/share}/dia/resources` → the
+   library’s `src/` tree (dia’s default `general.resources` path).
+
+### Tests
+
+```shell
+.venv/bin/pip install -e '.[dev]'
+.venv/bin/pytest
+```
+
+Tests use `examples/` only; they do not require dia-resources.
 
 ## Usage
 
-To synchronise shared project files from `dia-project` into another repository, follow these steps:
+Mark a region and address a snippet path relative to the resources root:
 
-1. Create `.dia-pull.toml` manifests in your target repositories
-
-   At the root of your target repository[^technically], create a file named `.dia-pull.toml` and specify the generic resources required for the project (the employed syntax will be exemplified below).
-
-   [^technically]: Technically, this is not strictly necessary—but other choices would possibly undermine the idea of keeping project-related configurations close to the project.
-
-2. Run the synchronisation binary
-
-   The following command executes all pulling tasks which are specified in a `.dia.toml` file subordinated to one of the directories `<dir_1>`, …, `<dir_N>`:
-
-   ``` shell
-   dia <dir_1> … <dir_N>
-   ```
-
-   If no directory is specified, `dia-project` will operate only on the current working directory.
-
-### Example
-
-Let us consider a manifest located at `/path/to/project/.dia.toml` with the following content:
-
-```toml
-# If the target is relative, it is interpreted with respect to `/path/to/resources/type/`.
-[gitignore]
-source = ["rust-basic"]
-target = "foo/bar/.gitignore"
-
-# When no target is specified, a sensible and not entirely arbitrary default is used.
-[makefile]
-source = ["latex-basic"]
-# target = "makefile"
-
-# One may even specify absolute paths in the source field.
-[env]
-source = ["/path/to/some/credential", "/path/to/another/credential"]
-target = ".env"
+```shell
+#!/bin/sh
+# dia:begin scripts/make-help.sh
+# dia:end
 ```
 
-<!--
-TODO: Document new features:
-- Lists: One may now write [[foo]] for multiple files of the same kind.
-- Copy or symlink.
--->
+Then:
 
-Then, the following command pulls the specified resources for the project based at `/path/to/project/`:
-
-```sh
-dia-pull /path/to/project/
+```shell
+dia                 # current directory
+dia -n path/to/repo # dry-run
 ```
 
-This command effects essentially:
+Shebang (if any) stays on line 1; the begin marker follows on line 2.
 
-``` shell
-cat \
-    "/path/to/resources/gitignores/rust-basic.txt" \
-    !> "/path/to/target-repo/src/foo/.gitignore"
+### Configuration
 
-cat \
-    "/path/to/resources/makefiles/latex-basic.mk" \
-    !> "/path/to/target-repo/makefile"
+Default config ships in the repo (`src/dia_project/config.yaml`):
 
-cat \
-    "/path/to/some/credential" "/path/to/another/credential" \
-    !> "/path/to/target-repo/.env"
+```yaml
+general:
+  resources: "${XDG_DATA_HOME}/dia/resources"
+  marker: "dia"
 ```
 
-**WARNING**: By default, target files will be overwritten. For a dry run, the user may add the flag `--dry-run` or `-n`.
+Optional overrides (YAML, same shape) are merged on top:
+
+- `$DIA_CONF` if set, else
+- `~/.config/dia.conf` if that file exists
+
+Missing override file is ignored. `XDG_DATA_HOME` defaults to `~/.local/share`
+when unset.
+
+### Examples
+
+See [`examples/`](examples/) for minimal fixtures used by the test suite.
 
 ## Colophon
 

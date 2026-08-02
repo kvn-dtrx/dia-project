@@ -1,9 +1,0 @@
-# Python
-
-__pycache__/
-*.egg-info/
-*.pyc
-*.pyi
-/.python-version
-/.venv/
-local_settings.py

@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
-
+# dia:begin scripts/make-help.sh
 # ---
-# description: |
+# description: >-
 #   Lists all make targets with description; more precisely, all lines
 #   conceptually matching "identifier: ## description"
 # ---
@@ -26,3 +26,4 @@ printf "    %-16s: %s\n" \
     "-n" "Dry-run (print commands without running them)" \
     "-s" "Silent mode (don't print executed commands)" \
     "--debug[=b|v|a]" "Debug info (b=basic [default], v=verbose, a=all)"
+# dia:end

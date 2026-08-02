@@ -1,8 +1,0 @@
-# Docker
-
-data/
-db_data/
-
-docker-compose.override.yml
-
-workspace/
