@@ -41,14 +41,13 @@ dev = [
 "Bug Tracker" = "https://github.com/kvn-dtrx/dia-project/issues"
 
 [project.scripts]
-dia-pull = "dia_project.__main__:main"
-dp = "dia_project.__main__:main"
+dia = "dia_project.__main__:main"
 
 [tool.setuptools]
-package-dir = { "" = "src" }
+package-dir = { "" = "src/packages" }
 
 [tool.setuptools.packages.find]
-where = ["src"]
+where = ["src/packages"]
 
 [tool.isort]
 profile = "black"

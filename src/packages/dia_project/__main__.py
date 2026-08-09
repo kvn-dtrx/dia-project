@@ -2,11 +2,6 @@
 # title: dia-project initialisation on execution
 # ---
 
-"""
-Scan directories for configurable begin/end markers and embed the
-addressed resource snippets in place.
-"""
-
 # ---
 
 import logging

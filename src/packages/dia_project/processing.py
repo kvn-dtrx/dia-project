@@ -281,7 +281,6 @@ def embed_regions(
                 f"invalid snippet path {snippet_rel!r} at line {i + 1}"
             )
 
-        out.append(line)
         j = i + 1
         closed = False
         while j < len(lines):
@@ -293,10 +292,17 @@ def embed_regions(
                 )
             if end_re.match(candidate) is not None:
                 snippet = load_snippet(session, snippet_rel, file_path)
-                out.append(_ensure_trailing_newline(snippet))
-                out.append(lines[j])
+                snippet = _strip_edge_blank_lines(snippet)
+                _append_marker_line(out, line)
+                if snippet:
+                    out.append(_ensure_trailing_newline(snippet))
+                _append_marker_line(out, lines[j])
                 regions += 1
                 i = j + 1
+                # Drop host blanks that used to follow end; padding after
+                # the end marker is already ensured by _append_marker_line.
+                while i < len(lines) and _is_blank_line(lines[i]):
+                    i += 1
                 closed = True
                 break
             j += 1
@@ -306,17 +312,80 @@ def embed_regions(
                 f"unclosed {marker}:begin {snippet_rel} at line {i + 1}"
             )
 
-    return "".join(out), regions
+    # Marker padding adds a blank after each end; drop surplus blanks at EOF.
+    return _strip_trailing_blank_lines("".join(out)), regions
+
+
+def normalize_marker_spacing(
+    text: str, marker: str = "dia"
+) -> str:
+    """Ensure exactly one blank line before and after each marker line.
+
+    Does not load or rewrite snippet bodies — only spacing around
+    ``<marker>:begin`` / ``<marker>:end`` lines. Idempotent.
+    """
+    begin_re, end_re = compile_marker_patterns(marker)
+    lines = text.splitlines(keepends=True)
+    out: list[str] = []
+    i = 0
+    while i < len(lines):
+        logical = _logical_line(lines[i])
+        if begin_re.match(logical) is not None or end_re.match(logical) is not None:
+            _append_marker_line(out, lines[i])
+            i += 1
+            while i < len(lines) and _is_blank_line(lines[i]):
+                i += 1
+            continue
+        out.append(lines[i])
+        i += 1
+    return _strip_trailing_blank_lines("".join(out))
+
+
+def _append_marker_line(out: list[str], marker_line: str) -> None:
+    """Append a marker with exactly one blank line before and after."""
+    while out and _is_blank_line(out[-1]):
+        out.pop()
+    if out:
+        out.append("\n")
+    out.append(marker_line if marker_line.endswith("\n") else marker_line + "\n")
+    out.append("\n")
 
 
 def _logical_line(line: str) -> str:
     return line.rstrip("\r\n")
 
 
+def _is_blank_line(line: str) -> bool:
+    return _logical_line(line) == ""
+
+
+def _strip_edge_blank_lines(text: str) -> str:
+    lines = text.splitlines()
+    while lines and lines[0].strip() == "":
+        lines.pop(0)
+    while lines and lines[-1].strip() == "":
+        lines.pop()
+    if not lines:
+        return ""
+    return "\n".join(lines) + "\n"
+
+
 def _ensure_trailing_newline(text: str) -> str:
     if text == "" or text.endswith("\n"):
         return text
     return text + "\n"
+
+
+def _strip_trailing_blank_lines(text: str) -> str:
+    """Drop extra blank lines at EOF; keep a single terminating newline."""
+    if text == "":
+        return text
+    lines = text.splitlines(keepends=True)
+    while lines and _is_blank_line(lines[-1]):
+        lines.pop()
+    if not lines:
+        return "\n"
+    return _ensure_trailing_newline("".join(lines))
 
 
 def load_snippet(session: Box, rel_path: str, file_path: Path) -> str:

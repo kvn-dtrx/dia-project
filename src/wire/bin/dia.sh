@@ -1,8 +1,7 @@
 #!/usr/bin/env sh
 
 # ---
-# description: >-
-#   Runs dia via the repository .venv (`python -m dia_project`)
+# title: Public shim for dia_project
 # ---
 
 # ---

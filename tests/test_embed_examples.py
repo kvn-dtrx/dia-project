@@ -16,6 +16,7 @@ from dia_project.processing import (
     compile_marker_patterns,
     embed_regions,
     get_resources_path,
+    normalize_marker_spacing,
     process,
 )
 
@@ -63,7 +64,9 @@ def test_embed_hello_snippet(tmp_path: Path) -> None:
     updated, n = embed_regions(session, target.read_text(encoding="utf-8"), target)
     assert n == 1
     assert "printf 'hello from dia examples" in updated
-    assert updated.startswith("#!/bin/sh\n")
+    assert updated.startswith("#!/bin/sh\n\n# dia:begin scripts/hello.sh\n\n")
+    assert updated.rstrip().endswith("# dia:end")
+    assert "\n\n# dia:end\n" in updated
     # Idempotent
     again, n2 = embed_regions(session, updated, target)
     assert n2 == 1
@@ -80,6 +83,47 @@ def test_embed_gitignore_demo(tmp_path: Path) -> None:
     updated, n = embed_regions(session, target.read_text(encoding="utf-8"), target)
     assert n == 1
     assert "*.demo-cache/" in updated
+    assert updated.startswith("# dia:begin gitignore/demo.ignore\n\n")
+    assert "\n\n# dia:end\n" in updated
+    # No surplus blank line after a terminal end marker
+    assert updated.endswith("# dia:end\n")
+    assert not updated.endswith("# dia:end\n\n")
+
+
+def test_embed_strips_eof_blank_after_end(tmp_path: Path) -> None:
+    session = _session_for_examples(tmp_path)
+    target = tmp_path / "tool.sh"
+    target.write_text(
+        "#!/bin/sh\n# dia:begin scripts/hello.sh\n# dia:end\n\n\n",
+        encoding="utf-8",
+    )
+    updated, n = embed_regions(session, target.read_text(encoding="utf-8"), target)
+    assert n == 1
+    assert updated.endswith("# dia:end\n")
+    assert not updated.endswith("\n\n")
+
+
+def test_normalize_marker_spacing_idempotent() -> None:
+    raw = (
+        "#!/bin/sh\n"
+        "# dia:begin scripts/hello.sh\n"
+        "echo hi\n"
+        "# dia:end\n"
+        "tail\n"
+    )
+    once = normalize_marker_spacing(raw)
+    assert once == (
+        "#!/bin/sh\n"
+        "\n"
+        "# dia:begin scripts/hello.sh\n"
+        "\n"
+        "echo hi\n"
+        "\n"
+        "# dia:end\n"
+        "\n"
+        "tail\n"
+    )
+    assert normalize_marker_spacing(once) == once
 
 
 def test_process_writes_file(tmp_path: Path) -> None:
@@ -96,4 +140,5 @@ def test_process_writes_file(tmp_path: Path) -> None:
     assert process(session) == 0
     text = target.read_text(encoding="utf-8")
     assert "hello from dia examples" in text
+    assert "\n\n# dia:begin scripts/hello.sh\n\n" in text
     assert process(session) == 0  # idempotent

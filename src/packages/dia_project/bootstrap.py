@@ -9,7 +9,7 @@ import subprocess
 from pathlib import Path
 
 # Path relative with respect to the repository root.
-DEFAULT_CONFIG_PATH_REL = "src/dia_project/config.yaml"
+DEFAULT_CONFIG_PATH_REL = "src/packages/dia_project/config.yaml"
 
 # User override: $DIA_CONF, or ~/.config/dia.conf when unset.
 DIA_CONF_ENV = "DIA_CONF"

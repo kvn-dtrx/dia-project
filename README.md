@@ -22,7 +22,7 @@ the embed engine plus a tiny `examples/` tree for tests and illustration.
     ```shell
     git clone https://github.com/kvn-dtrx/dia-project.git
     cd dia-project
-    make install
+    make all
     ```
 
 2. Clone the snippet library and wire it into the XDG data home:
@@ -51,8 +51,11 @@ Mark a region and address a snippet path relative to the resources root:
 
 ```shell
 #!/bin/sh
+
 # dia:begin scripts/make-help.sh
+
 # dia:end
+
 ```
 
 Then:
@@ -62,11 +65,12 @@ dia                 # current directory
 dia -n path/to/repo # dry-run
 ```
 
-Shebang (if any) stays on line 1; the begin marker follows on line 2.
+Shebang (if any) stays on line 1. Embed keeps exactly one blank line before
+and after each `dia:begin` / `dia:end` marker.
 
 ### Configuration
 
-Default config ships in the repo (`src/dia_project/config.yaml`):
+Default config ships in the repo (`src/packages/dia_project/config.yaml`):
 
 ```yaml
 general:

@@ -1,11 +1,10 @@
 # ---
-# description: >-
-#   Provides the default configuration
+# title: Default configuration
 # ---
 
 # ---
 
-# General
+# --- General ---
 
 [general]
 # Filename of manifests
@@ -13,9 +12,7 @@ manifest = ".dia.toml"
 additional_resources = []
 log_level = "INFO"
 
-# ---
-
-# Sources and targets
+# --- Sources and targets ---
 
 [srctar.flake8]
 sources = ["base.ini"]
@@ -52,5 +49,3 @@ target = ".pylintrc"
 [srctar.readme]
 sources = ["base.md"]
 target = ".pylintrc"
-
-# ---

@@ -1,4 +1,11 @@
+# ---
+# title: Gitignore for Dia-Project
+# ---
+
+# ---
+
 # dia:begin gitignore/base.ignore
+
 # Base
 
 # macOS
@@ -27,6 +34,7 @@ Thumbs.db
 
 # Logs and temporary files
 *.bak
+*.bak[0-9]*
 *.bkp
 *.log
 *.swo
@@ -43,9 +51,11 @@ tmp/
 .envrc
 .envrc.*
 !.envrc.example
+
 # dia:end
 
 # dia:begin gitignore/python.ignore
+
 # Python
 
 __pycache__/
@@ -55,4 +65,6 @@ __pycache__/
 /.python-version
 /.venv/
 local_settings.py
+
 # dia:end
+

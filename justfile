@@ -4,11 +4,6 @@
 
 # ---
 
-#
-# Convention: just = clear/reset ops; make = setup/install (bin link, venv).
-
-# ---
-
 venv := ".venv"
 
 # Shows available recipes
