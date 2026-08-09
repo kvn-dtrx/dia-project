@@ -30,4 +30,3 @@ printf "    %-16s: %s\n" \
     "--debug[=b|v|a]" "Debug info (b=basic [default], v=verbose, a=all)"
 
 # dia:end
-
