@@ -13,7 +13,7 @@
 PYTHON_VERSION := 3.11.3
 VENV ?= .venv
 XDG_DATA_HOME ?= $(HOME)/.local/share
-WIRE := $(CURDIR)/bin/make-wire.bash
+WIRE := $(CURDIR)/bin/make-wire.py
 
 .PHONY: _help setup install all test
 
@@ -27,7 +27,7 @@ setup: ## Creates venv and installs the package editable
 	$(VENV)/bin/python -m pip install -e .
 
 install: ## Wire public shims (src/wire/bin → ~/.local/bin)
-	@bash "$(WIRE)" bin "$(CURDIR)"
+	@python3 "$(WIRE)" bin "$(CURDIR)"
 
 all: setup install ## Runs setup and install
 

@@ -5,8 +5,9 @@ Used by unit tests and as documentation fixtures — not as `general.resources` 
 
 ```text
 examples/
-  gitignore/demo.ignore
-  scripts/hello.sh
+  gitignore/demo.ignore   # region embed (begin/end)
+  scripts/hello.sh        # region embed
+  scripts/whole.sh        # whole-file embed (dia:file; includes shebang)
 ```
 
 Production embeds resolve against `${XDG_DATA_HOME}/dia/resources` (see dia config).

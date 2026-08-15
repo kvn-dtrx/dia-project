@@ -1,6 +1,7 @@
 # ---
 # description: >-
 #   Embeds resource snippets into files at configurable markers
+#   (region: begin/end; whole-file: file)
 # ---
 
 # ---
@@ -79,12 +80,15 @@ def process(session: Box) -> int:
     marker = get_marker(session)
     resources = get_resources_path(session)
     begin_re, end_re = compile_marker_patterns(marker)
+    file_re = compile_file_pattern(marker)
     session.ephemeral.marker = marker
     session.ephemeral.resources_path = resources
     session.ephemeral.begin_re = begin_re
     session.ephemeral.end_re = end_re
+    session.ephemeral.file_re = file_re
     session.ephemeral.begin_token = f"{marker}:begin"
     session.ephemeral.end_token = f"{marker}:end"
+    session.ephemeral.file_token = f"{marker}:file"
 
     if not resources.is_dir():
         logging.error(f"Resources directory does not exist:\n  {resources}")
@@ -162,6 +166,15 @@ def compile_marker_patterns(marker: str) -> tuple[re.Pattern[str], re.Pattern[st
     return begin_re, end_re
 
 
+def compile_file_pattern(marker: str) -> re.Pattern[str]:
+    escaped = re.escape(marker)
+    return re.compile(
+        rf"^(?P<indent>\s*)(?P<open><!--\s*|#\s*|//\s*|;\s*)?"
+        rf"{escaped}:file\s+(?P<path>\S+)"
+        rf"(?P<close>\s*-->)?\s*$"
+    )
+
+
 def iter_candidate_files(base: Path) -> list[Path]:
     base = base.resolve()
     if base.is_file():
@@ -215,14 +228,30 @@ def process_file(session: Box, path: Path) -> bool:
     original = from_file(path)
     if original is None:
         return True
+
+    # Cheap gate: mention of marker tokens anywhere (including prose/comments).
     if (
         session.ephemeral.begin_token not in original
         and session.ephemeral.end_token not in original
+        and session.ephemeral.file_token not in original
     ):
         return True
 
     try:
-        updated, regions = embed_regions(session, original, path)
+        has_file = _has_marker_line(original, session.ephemeral.file_re)
+        has_begin = _has_marker_line(original, session.ephemeral.begin_re)
+        has_end = _has_marker_line(original, session.ephemeral.end_re)
+        if has_file and (has_begin or has_end):
+            raise IntegrityError(
+                f"{session.ephemeral.file_token} cannot be combined with "
+                f"{session.ephemeral.begin_token} / {session.ephemeral.end_token}"
+            )
+        if has_file:
+            updated, regions = embed_file(session, original, path)
+            unit = "file"
+        else:
+            updated, regions = embed_regions(session, original, path)
+            unit = "region"
     except IntegrityError as e:
         logging.error(f"Integrity check failed in {path}:\n  {e}")
         return False
@@ -231,20 +260,97 @@ def process_file(session: Box, path: Path) -> bool:
         return True
 
     if updated == original:
-        logging.info(f"Unchanged ({regions} region(s)):\n  {path}")
+        logging.info(f"Unchanged ({regions} {unit}(s)):\n  {path}")
         return True
 
     if session.ephemeral.dry_run:
-        logging.info(f"Would embed {regions} region(s) into:\n  {path}")
+        logging.info(f"Would embed {regions} {unit}(s) into:\n  {path}")
         return True
 
     try:
         path.write_text(updated, encoding="utf-8")
-        logging.info(f"Embedded {regions} region(s) into:\n  {path}")
+        logging.info(f"Embedded {regions} {unit}(s) into:\n  {path}")
     except OSError as e:
         logging.error(f"Failed to write {path}:\n  {e}")
         return False
     return True
+
+
+def _has_marker_line(text: str, pattern: re.Pattern[str]) -> bool:
+    for line in text.splitlines():
+        if pattern.match(line) is not None:
+            return True
+    return False
+
+
+def embed_file(
+    session: Box, text: str, file_path: Path
+) -> tuple[str, int]:
+    """Replace the whole host body from a single ``marker:file`` directive."""
+    file_re: re.Pattern[str] = session.ephemeral.file_re
+    marker: str = session.ephemeral.marker
+
+    lines = text.splitlines(keepends=True)
+    matches: list[tuple[int, re.Match[str], str]] = []
+    for i, line in enumerate(lines):
+        match = file_re.match(_logical_line(line))
+        if match is not None:
+            matches.append((i, match, line))
+
+    if not matches:
+        return text, 0
+    if len(matches) > 1:
+        raise IntegrityError(
+            f"multiple {marker}:file markers "
+            f"(lines {', '.join(str(i + 1) for i, _, _ in matches)})"
+        )
+
+    index, match, marker_line = matches[0]
+    snippet_rel = match.group("path")
+    if snippet_rel in {".", "/"} or snippet_rel.endswith("/"):
+        raise IntegrityError(
+            f"invalid snippet path {snippet_rel!r} at line {index + 1}"
+        )
+
+    prefix = lines[:index]
+    nonblank_prefix = [line for line in prefix if not _is_blank_line(line)]
+
+    snippet = load_snippet(session, snippet_rel, file_path)
+    shebang, body = _split_shebang(snippet)
+    body = _strip_edge_blank_lines(body)
+
+    if shebang is not None:
+        if len(nonblank_prefix) > 1:
+            raise IntegrityError(
+                f"{marker}:file at line {index + 1}: only a shebang may "
+                "precede the marker when the snippet has a shebang"
+            )
+        if len(nonblank_prefix) == 1 and not _is_shebang_line(
+            nonblank_prefix[0]
+        ):
+            raise IntegrityError(
+                f"{marker}:file at line {index + 1}: content before the "
+                "marker must be a shebang when the snippet has a shebang"
+            )
+        out: list[str] = [
+            _ensure_trailing_newline(shebang),
+            "\n",
+        ]
+        _append_marker_line(out, marker_line)
+        if body:
+            out.append(_ensure_trailing_newline(body))
+        return _strip_trailing_blank_lines("".join(out)), 1
+
+    if nonblank_prefix:
+        raise IntegrityError(
+            f"{marker}:file at line {index + 1}: snippet has no shebang, "
+            "so the host may not have content before the marker"
+        )
+    out = []
+    _append_marker_line(out, marker_line)
+    if body:
+        out.append(_ensure_trailing_newline(body))
+    return _strip_trailing_blank_lines("".join(out)), 1
 
 
 def embed_regions(
@@ -339,6 +445,20 @@ def normalize_marker_spacing(
         out.append(lines[i])
         i += 1
     return _strip_trailing_blank_lines("".join(out))
+
+
+def _is_shebang_line(line: str) -> bool:
+    return _logical_line(line).startswith("#!")
+
+
+def _split_shebang(text: str) -> tuple[str | None, str]:
+    """Return ``(shebang_line_without_newline, rest)`` if text starts with #!."""
+    lines = text.splitlines(keepends=True)
+    if not lines:
+        return None, ""
+    if not _is_shebang_line(lines[0]):
+        return None, text
+    return _logical_line(lines[0]), "".join(lines[1:])
 
 
 def _append_marker_line(out: list[str], marker_line: str) -> None:

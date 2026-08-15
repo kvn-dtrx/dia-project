@@ -16,7 +16,8 @@ def get_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description=(
             "Embeds resource snippets into files at "
-            "configurable <marker>:begin / <marker>:end markers."
+            "configurable <marker>:begin / <marker>:end / "
+            "<marker>:file markers."
         )
     )
     parser.add_argument(

@@ -2,16 +2,14 @@ project:
   id: 79d97608-454f-44ac-ab2e-ca4748c91add
   name: Dia-Project
   description: >-
-    Embeds shared snippets into project files at configurable markers; snippet
-    library lives in dia-resources
+    Embeds shared snippets into project files at configurable markers; snippet library lives in dia-resources
   authors:
     - name: Kvn Dtrx
       mail: kvn.dtrx+git@protonmail.ch
   license:
     type: MIT
-    year:
-      - 2025
-      - 2026
+    year: "2025-2026"
+    file: LICENSE.txt
 forges:
   github:
     url: https://github.com/kvn-dtrx/dia-project

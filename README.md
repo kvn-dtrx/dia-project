@@ -3,7 +3,8 @@
 ## Synopsis
 
 Dia embeds shared snippets into project files at `dia:begin` / `dia:end`
-markers. The production snippet library lives in a separate repository
+region markers or `dia:file` whole-file markers. The production snippet library
+lives in a separate repository
 ([dia-resources](https://github.com/kvn-dtrx/dia-resources)); this repo is
 the embed engine plus a tiny `examples/` tree for tests and illustration.
 
@@ -34,7 +35,7 @@ the embed engine plus a tiny `examples/` tree for tests and illustration.
     ```
 
    That creates `${XDG_DATA_HOME:-~/.local/share}/dia/resources` → the
-   library’s `src/` tree (dia’s default `general.resources` path).
+   library’s `share/` tree (dia’s default `general.resources` path).
 
 ### Tests
 
@@ -47,42 +48,41 @@ Tests use `examples/` only; they do not require dia-resources.
 
 ## Usage
 
+### Whole-file embeds (`dia:file`)
+
+For hosts that should mirror an entire snippet (scripts with a shebang, full
+Makefiles, warning banners, …), use a fixed three-line header when the
+snippet starts with a shebang:
+
+```shell
+#!/usr/bin/env bash
+
+# dia:file scripts/resolve-note.sh
+```
+
+Dia takes the shebang from the snippet (SoT), keeps the `dia:file` line, and
+rewrites the rest of the host from the snippet body (everything after the
+snippet shebang). Do not mix `dia:file` with `dia:begin` / `dia:end` in the
+same file.
+
+Snippets without a shebang use a leading `dia:file` line only:
+
+```makefile
+# dia:file makefile/latex-package.mk
+```
+
+### Region embeds (`dia:begin` / `dia:end`)
+
 Mark a region and address a snippet path relative to the resources root:
 
 ```shell
 #!/bin/sh
 
-# dia:begin scripts/make-help.sh
+# dia:begin gitignore/demo.ignore
 
-# ---
-# description: >-
-#   Lists all make targets with description; more precisely, all lines
-#   conceptually matching "identifier: ## description"
-# ---
-
-# ---
-
-script="$(realpath "${0}")"
-script_dir="$(dirname "${script}")"
-ls_make_targets="${script_dir}/_ls-make-targets.awk"
-
-printf "\n"
-printf "\033[1;37m    %s\033[0m\n" "Available targets for make:"
-printf "\n"
-
-"${ls_make_targets}" Makefile | sed -e "s/^/    /"
-
-printf "\n"
-printf "\033[1;37m    %s\033[0m\n" "Important make flags:"
-printf "\n"
-
-printf "    %-16s: %s\n" \
-    "-n" "Dry-run (print commands without running them)" \
-    "-s" "Silent mode (don't print executed commands)" \
-    "--debug[=b|v|a]" "Debug info (b=basic [default], v=verbose, a=all)"
+*.demo-cache/
 
 # dia:end
-
 ```
 
 Then:
@@ -92,8 +92,9 @@ dia                 # current directory
 dia -n path/to/repo # dry-run
 ```
 
-Shebang (if any) stays on line 1. Embed keeps exactly one blank line before
-and after each `dia:begin` / `dia:end` marker.
+Region embeds keep exactly one blank line before and after each
+`dia:begin` / `dia:end` marker. Whole-file embeds keep one blank line after
+the `dia:file` marker (and after the shebang when present).
 
 ### Configuration
 
