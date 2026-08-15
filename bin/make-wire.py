@@ -22,7 +22,6 @@
 
 # ---
 
-from __future__ import annotations
 
 import os
 import re
@@ -331,8 +330,10 @@ def install_leaves(src_dir: Path, dest_dir: Path, mode: str, exec_mode: bool) ->
         if not src.is_file():
             continue
         name = src.name
-        if name.startswith(".") or name in LEAF_SKIP_NAMES or name.endswith(
-            LEAF_SKIP_SUFFIXES
+        if (
+            name.startswith(".")
+            or name in LEAF_SKIP_NAMES
+            or name.endswith(LEAF_SKIP_SUFFIXES)
         ):
             continue
         if exec_mode:

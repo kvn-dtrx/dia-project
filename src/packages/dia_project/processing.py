@@ -6,7 +6,6 @@
 
 # ---
 
-from __future__ import annotations
 
 import logging
 import os
@@ -101,9 +100,7 @@ def process(session: Box) -> int:
     directories: list[Path] = session.ephemeral.directories
     for directory in directories:
         base = Path(directory)
-        logging.info(
-            f"Scanning for {marker} markers under:\n  {base.resolve()}"
-        )
+        logging.info(f"Scanning for {marker} markers under:\n  {base.resolve()}")
         for path in iter_candidate_files(base):
             if not process_file(session, path):
                 errors += 1
@@ -114,8 +111,7 @@ def get_marker(session: Box) -> str:
     marker = str(session.general.get("marker") or "dia").strip()
     if not marker or not MARKER_NAME_RE.fullmatch(marker):
         raise IntegrityError(
-            "general.marker must match "
-            f"{MARKER_NAME_RE.pattern!r} (got {marker!r})"
+            f"general.marker must match {MARKER_NAME_RE.pattern!r} (got {marker!r})"
         )
     return marker
 
@@ -283,9 +279,7 @@ def _has_marker_line(text: str, pattern: re.Pattern[str]) -> bool:
     return False
 
 
-def embed_file(
-    session: Box, text: str, file_path: Path
-) -> tuple[str, int]:
+def embed_file(session: Box, text: str, file_path: Path) -> tuple[str, int]:
     """Replace the whole host body from a single ``marker:file`` directive."""
     file_re: re.Pattern[str] = session.ephemeral.file_re
     marker: str = session.ephemeral.marker
@@ -325,9 +319,7 @@ def embed_file(
                 f"{marker}:file at line {index + 1}: only a shebang may "
                 "precede the marker when the snippet has a shebang"
             )
-        if len(nonblank_prefix) == 1 and not _is_shebang_line(
-            nonblank_prefix[0]
-        ):
+        if len(nonblank_prefix) == 1 and not _is_shebang_line(nonblank_prefix[0]):
             raise IntegrityError(
                 f"{marker}:file at line {index + 1}: content before the "
                 "marker must be a shebang when the snippet has a shebang"
@@ -353,9 +345,7 @@ def embed_file(
     return _strip_trailing_blank_lines("".join(out)), 1
 
 
-def embed_regions(
-    session: Box, text: str, file_path: Path
-) -> tuple[str, int]:
+def embed_regions(session: Box, text: str, file_path: Path) -> tuple[str, int]:
     begin_re: re.Pattern[str] = session.ephemeral.begin_re
     end_re: re.Pattern[str] = session.ephemeral.end_re
     marker: str = session.ephemeral.marker
@@ -372,9 +362,7 @@ def embed_regions(
         end = end_re.match(logical)
 
         if end is not None:
-            raise IntegrityError(
-                f"orphaned {marker}:end at line {i + 1}"
-            )
+            raise IntegrityError(f"orphaned {marker}:end at line {i + 1}")
 
         if begin is None:
             out.append(line)
@@ -422,9 +410,7 @@ def embed_regions(
     return _strip_trailing_blank_lines("".join(out)), regions
 
 
-def normalize_marker_spacing(
-    text: str, marker: str = "dia"
-) -> str:
+def normalize_marker_spacing(text: str, marker: str = "dia") -> str:
     """Ensure exactly one blank line before and after each marker line.
 
     Does not load or rewrite snippet bodies — only spacing around
@@ -512,29 +498,20 @@ def load_snippet(session: Box, rel_path: str, file_path: Path) -> str:
     resources_root: Path = session.ephemeral.resources_path
 
     if rel_path.startswith("/") or rel_path.startswith("~"):
-        raise IntegrityError(
-            f"snippet path must be relative to resources/: {rel_path}"
-        )
+        raise IntegrityError(f"snippet path must be relative to resources/: {rel_path}")
     parts = Path(rel_path).parts
     if ".." in parts:
-        raise IntegrityError(
-            f"snippet path must not contain '..': {rel_path}"
-        )
+        raise IntegrityError(f"snippet path must not contain '..': {rel_path}")
 
     source = (resources_root / rel_path).resolve()
     if not source.is_relative_to(resources_root):
-        raise IntegrityError(
-            f"snippet path escapes resources/: {rel_path}"
-        )
+        raise IntegrityError(f"snippet path escapes resources/: {rel_path}")
     if not source.is_file():
         raise IntegrityError(
-            f"snippet not found for {file_path}:\n"
-            f"  {rel_path}\n  ({source})"
+            f"snippet not found for {file_path}:\n  {rel_path}\n  ({source})"
         )
     if not _is_text_file(source):
-        raise IntegrityError(
-            f"snippet is not a UTF-8 text file:\n  {rel_path}"
-        )
+        raise IntegrityError(f"snippet is not a UTF-8 text file:\n  {rel_path}")
 
     content = from_file(source)
     if content is None:

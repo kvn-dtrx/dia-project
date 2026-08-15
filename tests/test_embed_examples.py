@@ -4,13 +4,11 @@
 
 # ---
 
-from __future__ import annotations
 
 from pathlib import Path
 
 import pytest
 from box import Box
-
 from dia_project.bootstrap import EXAMPLES_DIR
 from dia_project.processing import (
     IntegrityError,
@@ -56,9 +54,7 @@ def test_xdg_data_home_default(monkeypatch: pytest.MonkeyPatch) -> None:
     session = Box(default_box=True)
     session.general.resources = "${XDG_DATA_HOME}/dia/resources"
     path = get_resources_path(session)
-    assert path == (
-        Path.home() / ".local" / "share" / "dia" / "resources"
-    ).resolve()
+    assert path == (Path.home() / ".local" / "share" / "dia" / "resources").resolve()
 
 
 def test_embed_hello_snippet(tmp_path: Path) -> None:
@@ -111,24 +107,10 @@ def test_embed_strips_eof_blank_after_end(tmp_path: Path) -> None:
 
 
 def test_normalize_marker_spacing_idempotent() -> None:
-    raw = (
-        "#!/bin/sh\n"
-        "# dia:begin scripts/hello.sh\n"
-        "echo hi\n"
-        "# dia:end\n"
-        "tail\n"
-    )
+    raw = "#!/bin/sh\n# dia:begin scripts/hello.sh\necho hi\n# dia:end\ntail\n"
     once = normalize_marker_spacing(raw)
     assert once == (
-        "#!/bin/sh\n"
-        "\n"
-        "# dia:begin scripts/hello.sh\n"
-        "\n"
-        "echo hi\n"
-        "\n"
-        "# dia:end\n"
-        "\n"
-        "tail\n"
+        "#!/bin/sh\n\n# dia:begin scripts/hello.sh\n\necho hi\n\n# dia:end\n\ntail\n"
     )
     assert normalize_marker_spacing(once) == once
 
@@ -160,9 +142,7 @@ def test_embed_file_whole_snippet(tmp_path: Path) -> None:
     )
     updated, n = embed_file(session, target.read_text(encoding="utf-8"), target)
     assert n == 1
-    assert updated.startswith(
-        "#!/usr/bin/env sh\n\n# dia:file scripts/whole.sh\n\n"
-    )
+    assert updated.startswith("#!/usr/bin/env sh\n\n# dia:file scripts/whole.sh\n\n")
     assert "whole-file hello from dia examples" in updated
     assert "dia:begin" not in updated
     assert "dia:end" not in updated
